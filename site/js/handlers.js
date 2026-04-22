@@ -11,8 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function bindAccessGate() {
-  document.querySelectorAll('[data-open-portal]').forEach((button) => {
-    button.addEventListener('click', openPortalModal);
+  document.querySelectorAll('[data-open-portal-role]').forEach((button) => {
+    button.addEventListener('click', () => openPortalModal(button.dataset.openPortalRole));
   });
 
   document.querySelectorAll('[data-close-portal]').forEach((element) => {
@@ -184,10 +184,32 @@ function resetForm(formId) {
   }
 }
 
-function openPortalModal() {
+function openPortalModal(role) {
+  applyPortalRole(role || 'admin');
   document.getElementById('portalModal').hidden = false;
 }
 
 function closePortalModal() {
   document.getElementById('portalModal').hidden = true;
+}
+
+function applyPortalRole(role) {
+  const roleMap = {
+    admin: {
+      title: 'Masuk sebagai Admin',
+      description: 'Gunakan token akses admin untuk membuka dashboard pengelolaan data sekolah dan pengaturan operasional.'
+    },
+    teacher: {
+      title: 'Masuk sebagai Guru',
+      description: 'Gunakan token akses guru untuk membuka portal akademik, informasi kelas, dan pengumuman internal.'
+    },
+    principal: {
+      title: 'Masuk sebagai Kepala Sekolah',
+      description: 'Gunakan token akses kepala sekolah untuk membuka ringkasan manajemen, laporan, dan pengawasan sekolah.'
+    }
+  };
+
+  const selected = roleMap[role] || roleMap.admin;
+  document.getElementById('portalRoleTitle').textContent = selected.title;
+  document.getElementById('portalRoleDescription').textContent = selected.description;
 }

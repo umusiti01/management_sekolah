@@ -25,7 +25,9 @@
           <a href="#program">Program</a>
           <a href="#berita">Berita</a>
           <a href="#kontak">Kontak</a>
-          <button type="button" class="ghost-button school-nav__button" data-open-portal>Portal Internal</button>
+          <button type="button" class="ghost-button school-nav__button" data-open-portal-role="admin">Admin</button>
+          <button type="button" class="ghost-button school-nav__button" data-open-portal-role="teacher">Guru</button>
+          <button type="button" class="ghost-button school-nav__button" data-open-portal-role="principal">Kepala Sekolah</button>
         </nav>
       </header>
 
@@ -37,7 +39,7 @@
             <p class="school-hero__copy">SMK SchoolOps Nusantara menghadirkan pendidikan vokasi modern dengan pendekatan disiplin, teknologi, dan pembinaan karakter agar setiap siswa tumbuh menjadi pribadi yang kompeten serta berakhlak baik.</p>
             <div class="school-hero__actions">
               <a class="primary-button link-button" href="#ppdb">Info PPDB</a>
-              <button type="button" class="ghost-button school-hero__ghost" data-open-portal>Akses Guru & Admin</button>
+              <button type="button" class="ghost-button school-hero__ghost" data-open-portal-role="teacher">Akses Guru</button>
             </div>
           </div>
           <div class="school-hero__panel">
@@ -153,7 +155,7 @@
           </div>
           <div class="school-cta__actions">
             <a class="primary-button link-button" href="#kontak">Hubungi Sekolah</a>
-            <button type="button" class="ghost-button" data-open-portal>Portal Internal</button>
+            <button type="button" class="ghost-button" data-open-portal-role="principal">Akses Kepala Sekolah</button>
           </div>
         </section>
       </main>
@@ -175,8 +177,8 @@
       <section class="access-card portal-modal__card">
         <div class="access-card-head">
           <p class="eyebrow">Akses Internal</p>
-          <h2>Masuk ke Portal Sekolah</h2>
-          <p>Gunakan token akses untuk membuka dashboard pengelolaan siswa, guru, kelas, dan pengumuman sekolah.</p>
+          <h2 id="portalRoleTitle">Masuk ke Portal Sekolah</h2>
+          <p id="portalRoleDescription">Gunakan token akses untuk membuka dashboard pengelolaan siswa, guru, kelas, dan pengumuman sekolah.</p>
         </div>
 
         <form id="accessForm" class="access-form">

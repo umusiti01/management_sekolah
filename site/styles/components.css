@@ -44,6 +44,8 @@
   background: rgba(15, 76, 129, 0.08);
   color: var(--primary-deep);
   border-color: rgba(15, 76, 129, 0.08);
+  min-width: 110px;
+  justify-content: center;
 }
 
 .school-hero,
