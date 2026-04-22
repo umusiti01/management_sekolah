@@ -9,6 +9,10 @@
       "destination": "/site/js/:path*"
     },
     {
+      "source": "/assets/:path*",
+      "destination": "/site/assets/:path*"
+    },
+    {
       "source": "/admin",
       "destination": "/site/admin.html"
     },

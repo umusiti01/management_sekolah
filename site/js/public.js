@@ -10,8 +10,8 @@ const DEMO_CONTENT = {
   phone: '(021) 555-7788',
   email: 'info@schoolops.sch.id',
   address: 'Jl. Pendidikan No. 10, Nusantara, Indonesia',
-  heroImage: '',
-  featureImage: ''
+  heroImage: '/assets/hero-demo.svg',
+  featureImage: '/assets/feature-demo.svg'
 };
 
 const DEMO_ANNOUNCEMENTS = [
