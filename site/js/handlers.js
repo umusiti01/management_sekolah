@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+  setPublicMode();
+  closePortalModal();
   bindAccessGate();
   bindNavigation();
   bindActions();
