@@ -3,24 +3,58 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SchoolOps Frontend</title>
+    <title>SchoolOps | Portal Sekolah</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/site/styles/base.css">
-    <link rel="stylesheet" href="/site/styles/components.css">
+    <link rel="stylesheet" href="/styles/base.css">
+    <link rel="stylesheet" href="/styles/components.css">
   </head>
   <body>
     <div class="access-gate" id="accessGate">
-      <div class="access-card">
-        <p class="eyebrow">Secure Access</p>
-        <h1>Masuk ke Dashboard Sekolah</h1>
-        <p>Masukkan frontend access token agar Vercel dapat meneruskan request ke Apps Script dengan aman.</p>
-        <form id="accessForm" class="access-form">
-          <input type="password" id="frontendToken" placeholder="Frontend access token" required>
-          <button type="submit" class="primary-button">Masuk</button>
-        </form>
-        <p class="access-help">Token ini dicek di Vercel, lalu Vercel meneruskan request ke Apps Script memakai token server-side yang tersimpan di environment.</p>
+      <div class="access-stage">
+        <section class="access-showcase">
+          <div class="school-seal">SP</div>
+          <p class="eyebrow light">Portal Akademik</p>
+          <h1>SchoolOps<br>Manajemen Sekolah Modern</h1>
+          <p class="showcase-copy">Satu portal untuk operasional siswa, guru, kelas, dan pengumuman sekolah dengan nuansa yang lebih resmi, rapi, dan layak dipakai institusi pendidikan.</p>
+
+          <div class="showcase-points">
+            <div class="showcase-point">
+              <strong>Administrasi Terpusat</strong>
+              <span>Kelola data sekolah dari satu dashboard yang konsisten.</span>
+            </div>
+            <div class="showcase-point">
+              <strong>Tampilan Profesional</strong>
+              <span>Dirancang lebih dekat dengan citra website sekolah dan yayasan.</span>
+            </div>
+            <div class="showcase-point">
+              <strong>Integrasi Aman</strong>
+              <span>Frontend Vercel terhubung ke Apps Script melalui token server-side.</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="access-card">
+          <div class="access-card-head">
+            <p class="eyebrow">Akses Internal</p>
+            <h2>Masuk ke Dashboard Sekolah</h2>
+            <p>Gunakan token akses frontend untuk membuka portal internal sekolah yang sudah terhubung ke Vercel dan Google Apps Script.</p>
+          </div>
+
+          <form id="accessForm" class="access-form">
+            <label class="access-label">
+              <span>Frontend Access Token</span>
+              <input type="password" id="frontendToken" placeholder="Masukkan token akses" required>
+            </label>
+            <button type="submit" class="primary-button wide">Masuk ke Portal</button>
+          </form>
+
+          <div class="access-note">
+            <strong>Akses aman</strong>
+            <span>Token frontend diverifikasi di Vercel, lalu Vercel meneruskan request ke Apps Script dengan token rahasia yang tersimpan di environment server.</span>
+          </div>
+        </section>
       </div>
     </div>
 
@@ -357,10 +391,10 @@
 
     <div id="toast" class="toast"></div>
 
-    <script src="/site/js/config.js"></script>
-    <script src="/site/js/utils.js"></script>
-    <script src="/site/js/api.js"></script>
-    <script src="/site/js/renderers.js"></script>
-    <script src="/site/js/handlers.js"></script>
+    <script src="/js/config.js"></script>
+    <script src="/js/utils.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="/js/renderers.js"></script>
+    <script src="/js/handlers.js"></script>
   </body>
 </html>

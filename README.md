@@ -1,6 +1,11 @@
-# SchoolOps - Google Apps Script Manajemen Sekolah
+# SchoolOps - Apps Script Backend + Vercel Frontend
 
-Starter project ini adalah aplikasi web berbasis Google Apps Script untuk mengelola:
+Starter project ini memakai arsitektur:
+
+- Google Apps Script sebagai backend API
+- Vercel sebagai frontend penuh
+
+Project ini mengelola:
 
 - Data siswa
 - Data guru
@@ -10,36 +15,38 @@ Starter project ini adalah aplikasi web berbasis Google Apps Script untuk mengel
 
 ## Struktur File Modular
 
-- `appsscript.json`: konfigurasi project Apps Script
+- `appsscript.json`: manifest Apps Script untuk backend API-only
 - `gs/AppConfig.gs`: semua konfigurasi sheet, schema, dan mapping modul
-- `gs/Main.gs`: entry point Web App dan fungsi publik untuk client
+- `gs/Main.gs`: entry point backend API dan helper server-side
 - `gs/Database.gs`: inisialisasi spreadsheet dan akses sheet
 - `gs/Auth.gs`: guard autentikasi dan otorisasi berbasis email/domain
 - `gs/Repositories.gs`: layer akses data spreadsheet
 - `gs/Services.gs`: service dashboard dan CRUD lintas modul
 - `gs/Validation.gs`: validasi backend dan aturan integritas data
 - `gs/SeedData.gs`: data contoh awal
-- `Index.html`: shell utama halaman
-- `Layout.html`: layout utama dashboard
-- `ViewDashboard.html`, `ViewStudents.html`, `ViewTeachers.html`, `ViewClasses.html`, `ViewAnnouncements.html`: view per modul
-- `BaseStylesheet.html`, `ComponentStylesheet.html`: styling dasar dan komponen
-- `AppConfigJs.html`: konstanta dan state client
-- `AppUtilsJs.html`: utilitas UI
-- `AppApiJs.html`: wrapper komunikasi client ke Apps Script
-- `AppRenderersJs.html`: semua renderer dashboard, tabel, dan card
-- `AppHandlersJs.html`: event binding, form handling, dan lifecycle halaman
 - `site/index.html`: frontend statis untuk Vercel
 - `site/styles/base.css`, `site/styles/components.css`: file CSS frontend Vercel
 - `site/js/*.js`: file JavaScript frontend Vercel
 - `api/school.js`: Vercel serverless proxy ke Apps Script
 - `vercel.json`: rewrite root Vercel ke frontend statis
 - `.env.example`: contoh environment variable untuk Vercel
+- `vercel.env.txt`: file siap copy untuk environment Vercel
+- `apps-script-properties.txt`: file siap copy untuk Script Properties Apps Script
+
+## Yang Diupload Ke Apps Script
+
+Karena sekarang Apps Script dipakai sebagai backend-only, yang diupload ke project Apps Script hanya:
+
+- `appsscript.json`
+- semua file di folder `gs/`
+
+File HTML root lama tidak diperlukan untuk mode backend-only.
 
 ## Cara Pakai di Google Apps Script
 
 1. Buka [Google Apps Script](https://script.google.com/).
 2. Buat project baru.
-3. Salin semua file pada folder ini ke project Apps Script dengan nama yang sama.
+3. Salin `appsscript.json` dan semua file di folder `gs/` ke project Apps Script.
 4. Atur `Script Properties` minimal untuk keamanan:
    - `SCHOOL_ADMIN_EMAILS`
    - `SCHOOL_EDITOR_EMAILS`
@@ -48,20 +55,20 @@ Starter project ini adalah aplikasi web berbasis Google Apps Script untuk mengel
    - `SCHOOL_APP_ENV` dengan nilai `production` atau `development`
    - `SCHOOL_API_TOKEN` untuk koneksi aman dari Vercel ke Apps Script
 5. Jalankan fungsi `initializeDatabase` sekali memakai akun admin untuk membuat spreadsheet database otomatis.
-6. Jalankan fungsi `doGet` lewat deployment Web App:
+6. Deploy project sebagai Web App:
    - `Deploy` -> `New deployment`
    - Pilih `Web app`
    - Execute as: `Me`
-   - Who has access: gunakan akun domain internal yang sesuai dengan manifest
-7. Buka URL hasil deployment.
+   - Who has access: `Anyone`
+7. Gunakan URL `/exec` hasil deployment sebagai `APPS_SCRIPT_URL` di Vercel.
 
 Catatan:
-- Manifest sekarang memakai `webapp.access = DOMAIN`, sehingga cocok untuk Google Workspace sekolah.
-- Jika Anda belum memakai Google Workspace, ubah akses deployment dan sesuaikan guard auth dengan model login yang Anda pakai sebelum go-live.
+- Manifest sekarang memakai `webapp.access = ANYONE_ANONYMOUS` agar Vercel bisa memanggil endpoint server-to-server.
+- Keamanan utama tetap dijaga oleh `SCHOOL_API_TOKEN`, bukan oleh akses publik ke URL.
 
 ## Pengamanan Yang Sudah Ditambahkan
 
-- Web app tidak lagi dibuka untuk publik anonim
+- URL backend boleh diakses publik agar Vercel dapat terhubung server-to-server
 - Seluruh endpoint server dibatasi oleh guard role `viewer`, `editor`, dan `admin`
 - Delete sekarang menerima `moduleKey`, bukan nama sheet mentah dari browser
 - Validasi backend untuk required fields, enum, format, dan uniqueness
@@ -69,6 +76,19 @@ Catatan:
 - Audit trail menambah `Tanggal Diubah`, `Dibuat Oleh`, dan `Diubah Oleh`
 - Seed sample data dibatasi admin dan dimatikan di production secara default
 - Endpoint `doPost` tokenized untuk koneksi aman dari Vercel ke Apps Script
+
+Catatan:
+- Endpoint backend sekarang memang dapat diakses publik di level URL karena Vercel memerlukan akses server-to-server.
+- Namun operasi API hanya berjalan jika request membawa token yang cocok dengan `SCHOOL_API_TOKEN`.
+
+## Yang Diupload Ke Vercel
+
+Yang dipakai Vercel:
+
+- `site/`
+- `api/`
+- `vercel.json`
+- environment variables
 
 ## Frontend Vercel
 
