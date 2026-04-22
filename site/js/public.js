@@ -51,8 +51,8 @@ function renderPublicSite(settings, announcements) {
   const phone = settings.Telepon || DEMO_CONTENT.phone;
   const email = settings.Email || DEMO_CONTENT.email;
   const address = settings.Alamat || DEMO_CONTENT.address;
-  const heroImage = settings['Hero Gambar'] || DEMO_CONTENT.heroImage;
-  const featureImage = settings['Hero Gambar'] || DEMO_CONTENT.featureImage;
+  const heroImage = settings['Hero Gambar'] || '';
+  const featureImage = settings['Hero Gambar'] || '';
   const newsItems = announcements.length ? announcements : DEMO_ANNOUNCEMENTS;
 
   document.title = schoolName + ' | Website Sekolah';
@@ -92,8 +92,8 @@ function renderPublicSite(settings, announcements) {
   const brandSeal = document.getElementById('brandSeal');
   brandSeal.textContent = getInitials(schoolName);
 
-  applyImageWithFallback(heroImage, '.classic-hero', 'hero-demo-background');
-  applyImageWithFallback(featureImage, '.classic-feature-card__image', 'feature-demo-background');
+  applyImageWithFallback(heroImage, DEMO_CONTENT.heroImage, '.classic-hero', 'hero-demo-background');
+  applyImageWithFallback(featureImage, DEMO_CONTENT.featureImage, '.classic-feature-card__image', 'feature-demo-background');
 
   renderAnnouncements(newsItems);
   renderAgenda(newsItems);
@@ -160,7 +160,7 @@ function getInitials(name) {
     .join('');
 }
 
-function applyImageWithFallback(url, containerSelector, fallbackClass) {
+function applyImageWithFallback(url, fallbackUrl, containerSelector, fallbackClass) {
   const container = document.querySelector(containerSelector);
   if (!container) {
     return;
@@ -169,16 +169,28 @@ function applyImageWithFallback(url, containerSelector, fallbackClass) {
   container.classList.add(fallbackClass);
   container.style.removeProperty('background-image');
 
-  if (!url) {
+  const primaryUrl = String(url || '').trim();
+  const localFallbackUrl = String(fallbackUrl || '').trim();
+
+  if (!primaryUrl && !localFallbackUrl) {
     return;
   }
 
+  tryLoadImage(primaryUrl || localFallbackUrl, container, fallbackClass, localFallbackUrl);
+}
+
+function tryLoadImage(url, container, fallbackClass, localFallbackUrl) {
   const testImage = new Image();
   testImage.onload = function () {
     container.classList.remove(fallbackClass);
     container.style.backgroundImage = `linear-gradient(90deg, rgba(7, 32, 54, 0.3), rgba(7, 32, 54, 0.08)), url("${url}")`;
   };
   testImage.onerror = function () {
+    if (localFallbackUrl && url !== localFallbackUrl) {
+      tryLoadImage(localFallbackUrl, container, fallbackClass, '');
+      return;
+    }
+
     container.classList.add(fallbackClass);
   };
   testImage.src = url;
