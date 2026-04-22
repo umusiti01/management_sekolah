@@ -11,51 +11,67 @@
     <link rel="stylesheet" href="/styles/components.css">
   </head>
   <body>
-    <div class="public-site" id="publicSite">
-      <header class="school-header">
-        <div class="school-header__brand">
-          <div class="school-seal" id="brandSeal">SP</div>
-          <div>
-            <p class="eyebrow">SITUS RESMI SEKOLAH</p>
-            <h1 id="schoolName">SMK SchoolOps Nusantara</h1>
-            <p class="header-tagline" id="schoolTagline">Sekolah vokasi modern yang unggul, tertib, dan siap masa depan.</p>
+    <div class="public-site public-site--classic" id="publicSite">
+      <header class="school-topbar">
+        <div class="school-topbar__inner">
+          <div class="school-topbar__contacts">
+            <span>Telepon: <strong id="topPhone">(021) 555-7788</strong></span>
+            <span>Email: <strong id="topEmail">info@schoolops.sch.id</strong></span>
+          </div>
+          <div class="school-topbar__links">
+            <a href="/admin">Login Admin</a>
+            <a href="#kontak">Kontak</a>
           </div>
         </div>
-        <nav class="school-nav">
-          <a href="#tentang">Tentang</a>
-          <a href="#program">Program</a>
-          <a href="#berita">Berita</a>
-          <a href="#kontak">Kontak</a>
-        </nav>
       </header>
 
-      <main>
-        <section class="school-hero school-hero--visual">
-          <div class="school-hero__content">
-            <p class="eyebrow">Sekolah Unggul dan Berkarakter</p>
-            <h2 id="heroTitle">Membentuk Generasi Siap Kerja, Siap Kuliah, dan Siap Memimpin.</h2>
-            <p class="school-hero__copy" id="heroDescription">SMK SchoolOps Nusantara menghadirkan pembelajaran vokasi yang dekat dengan industri, kuat di karakter, dan ramah teknologi untuk menyiapkan lulusan yang percaya diri.</p>
-            <div class="school-hero__actions">
-              <a class="primary-button link-button" id="heroCta" href="#kontak">Info PPDB</a>
-              <a class="ghost-button link-button school-hero__ghost" href="/admin">Login Admin</a>
+      <section class="school-brandbar">
+        <div class="school-brandbar__inner">
+          <div class="school-brandbar__identity">
+            <div class="school-brandbar__seal" id="brandSeal">SP</div>
+            <div>
+              <p class="brandbar-subtitle">WEBSITE RESMI SEKOLAH</p>
+              <h1 id="schoolName">SMK SchoolOps Nusantara</h1>
+              <p id="schoolTagline">Sekolah vokasi modern yang unggul, tertib, dan siap masa depan.</p>
             </div>
           </div>
-          <div class="school-hero__media" id="heroMedia">
-            <div class="hero-photo-frame">
-              <img id="heroImage" alt="Foto utama sekolah">
-            </div>
-            <div class="hero-floating-card hero-floating-card--top">
-              <span>Lingkungan belajar</span>
-              <strong>Modern dan hangat</strong>
-            </div>
-            <div class="hero-floating-card hero-floating-card--bottom">
-              <span>Kelola lewat CMS</span>
-              <strong>Foto hero dan isi website bisa diubah admin</strong>
+          <form class="school-brandbar__search" action="#berita">
+            <input type="search" placeholder="Cari artikel / berita sekolah...">
+            <button type="submit">Cari</button>
+          </form>
+        </div>
+      </section>
+
+      <nav class="school-mainnav">
+        <div class="school-mainnav__inner">
+          <a href="#">Beranda</a>
+          <a href="#tentang">Profil</a>
+          <a href="#program">Jurusan</a>
+          <a href="#fasilitas">Fasilitas</a>
+          <a href="#berita">Informasi</a>
+          <a href="#prestasi">Prestasi</a>
+          <a href="#galeri">Galeri</a>
+          <a href="#kontak">Kontak</a>
+        </div>
+      </nav>
+
+      <main class="school-page">
+        <section class="classic-hero" id="beranda">
+          <img id="heroImage" alt="Foto utama sekolah">
+          <div class="classic-hero__overlay">
+            <div class="classic-hero__content">
+              <span class="classic-hero__eyebrow">Penerimaan dan Informasi Sekolah</span>
+              <h2 id="heroTitle">Membentuk Generasi Siap Kerja, Siap Kuliah, dan Siap Memimpin.</h2>
+              <p id="heroDescription">SMK SchoolOps Nusantara menghadirkan pembelajaran vokasi yang dekat dengan industri, kuat di karakter, dan ramah teknologi untuk menyiapkan lulusan yang percaya diri.</p>
+              <div class="classic-hero__actions">
+                <a class="primary-button link-button" id="heroCta" href="#kontak">Info PPDB</a>
+                <a class="ghost-button link-button" href="/admin">Kelola Website</a>
+              </div>
             </div>
           </div>
         </section>
 
-        <section class="school-stats" id="statsGrid">
+        <section class="classic-stats" id="prestasi">
           <article>
             <strong id="stat1Value">1.250+</strong>
             <span id="stat1Label">Siswa Aktif</span>
@@ -70,79 +86,122 @@
           </article>
         </section>
 
-        <section class="school-section school-section--split" id="tentang">
-          <div class="section-copy">
-            <p class="eyebrow">Profil Sekolah</p>
-            <h3 id="aboutTitle">Lingkungan belajar yang tertib, hangat, dan berorientasi masa depan.</h3>
-            <p id="aboutDescription">Website sekolah adalah wajah institusi. Karena itu tampilannya harus hidup, visual, dan informatif sambil tetap mudah dikelola oleh admin sekolah.</p>
-          </div>
-          <div class="section-feature-card">
-            <span class="feature-badge">CMS Sekolah</span>
-            <h4>Admin bisa mengatur hero image, headline, statistik, program, dan kontak tanpa mengubah layout publik.</h4>
-            <p>Portal admin sekarang punya panel khusus website untuk mengelola isi landing page sekolah dengan gaya seperti mini CMS.</p>
-          </div>
-        </section>
+        <section class="classic-content">
+          <div class="classic-main">
+            <article class="classic-feature-card" id="tentang">
+              <div class="classic-feature-card__image">
+                <img id="featureImage" alt="Foto kegiatan sekolah">
+              </div>
+              <div class="classic-feature-card__body">
+                <span class="classic-badge">Profil Sekolah</span>
+                <h3 id="aboutTitle">Lingkungan belajar yang tertib, hangat, dan berorientasi masa depan.</h3>
+                <p id="aboutDescription">Website sekolah adalah wajah institusi. Karena itu tampilannya harus hidup, visual, dan informatif sambil tetap mudah dikelola oleh admin sekolah.</p>
+              </div>
+            </article>
 
-        <section class="school-section alt" id="program">
-          <div class="section-copy">
-            <p class="eyebrow">Program Unggulan</p>
-            <h3>Jurusan dan pembelajaran yang dekat dengan kebutuhan dunia kerja.</h3>
-          </div>
-          <div class="program-grid" id="programGrid">
-            <article class="program-card">
-              <span>01</span>
-              <h4 id="program1Name">Rekayasa Perangkat Lunak</h4>
-              <p id="program1Description">Belajar coding, UI/UX, project digital, dan penguatan portofolio teknologi.</p>
-            </article>
-            <article class="program-card">
-              <span>02</span>
-              <h4 id="program2Name">Akuntansi dan Keuangan</h4>
-              <p id="program2Description">Penguasaan laporan keuangan, administrasi bisnis, dan aplikasi perkantoran modern.</p>
-            </article>
-            <article class="program-card">
-              <span>03</span>
-              <h4 id="program3Name">Teknik Jaringan Komputer</h4>
-              <p id="program3Description">Instalasi jaringan, keamanan dasar, dan praktik laboratorium berbasis industri.</p>
-            </article>
-          </div>
-        </section>
+            <section class="classic-block" id="program">
+              <div class="classic-block__header">
+                <h3>Program Unggulan</h3>
+                <a href="/admin">Atur Konten</a>
+              </div>
+              <div class="classic-programs">
+                <article class="classic-program-card">
+                  <span>01</span>
+                  <h4 id="program1Name">Rekayasa Perangkat Lunak</h4>
+                  <p id="program1Description">Belajar coding, UI/UX, project digital, dan penguatan portofolio teknologi.</p>
+                </article>
+                <article class="classic-program-card">
+                  <span>02</span>
+                  <h4 id="program2Name">Akuntansi dan Keuangan</h4>
+                  <p id="program2Description">Penguasaan laporan keuangan, administrasi bisnis, dan aplikasi perkantoran modern.</p>
+                </article>
+                <article class="classic-program-card">
+                  <span>03</span>
+                  <h4 id="program3Name">Teknik Jaringan Komputer</h4>
+                  <p id="program3Description">Instalasi jaringan, keamanan dasar, dan praktik laboratorium berbasis industri.</p>
+                </article>
+              </div>
+            </section>
 
-        <section class="school-section" id="berita">
-          <div class="section-copy">
-            <p class="eyebrow">Berita & Agenda</p>
-            <h3>Informasi terbaru sekolah, kegiatan siswa, dan agenda penting untuk orang tua.</h3>
+            <section class="classic-block" id="berita">
+              <div class="classic-block__header">
+                <h3>Berita dan Informasi Sekolah</h3>
+                <a href="#kontak">Hubungi Sekolah</a>
+              </div>
+              <div class="classic-news-list" id="newsGrid">
+                <article class="classic-news-card">
+                  <span class="classic-badge">Informasi</span>
+                  <h4>Konten berita sekolah akan tampil di sini.</h4>
+                  <p>Tambahkan pengumuman berstatus tayang dari dashboard admin untuk menampilkan berita terbaru di homepage.</p>
+                </article>
+              </div>
+            </section>
           </div>
-          <div class="news-grid" id="newsGrid">
-            <article class="news-card">
-              <span class="news-tag">Informasi</span>
-              <h4>Konten berita sekolah akan tampil di sini.</h4>
-              <p>Tambahkan pengumuman berstatus tayang dari dashboard admin untuk menampilkan berita terbaru di homepage.</p>
-            </article>
-          </div>
-        </section>
 
-        <section class="school-cta" id="ppdb">
-          <div>
-            <p class="eyebrow light">Penerimaan Peserta Didik Baru</p>
-            <h3 id="ctaHeadline">Bangun citra sekolah yang lebih hidup dengan visual hero, statistik, dan berita terbaru.</h3>
-            <p id="ctaDescription">Hubungi sekolah untuk informasi pendaftaran, kunjungan kampus, serta program unggulan yang paling sesuai untuk calon siswa.</p>
-          </div>
-          <div class="school-cta__actions">
-            <a class="primary-button link-button" href="#kontak">Hubungi Sekolah</a>
-            <a class="ghost-button link-button" href="/admin">Kelola Website</a>
-          </div>
+          <aside class="classic-sidebar">
+            <section class="sidebar-box sidebar-box--tabs">
+              <div class="sidebar-box__tabs">
+                <span class="active">Agenda</span>
+                <span>Populer</span>
+                <span>Info</span>
+              </div>
+              <div class="sidebar-agenda" id="agendaList">
+                <article class="sidebar-agenda__item">
+                  <h4>Belum ada agenda tayang.</h4>
+                  <p>Tambahkan pengumuman sekolah dari dashboard admin.</p>
+                </article>
+              </div>
+            </section>
+
+            <section class="sidebar-box" id="fasilitas">
+              <div class="sidebar-box__header">
+                <h3>Fasilitas Sekolah</h3>
+              </div>
+              <ul class="sidebar-list">
+                <li>Laboratorium komputer dan jaringan</li>
+                <li>Ruang praktik berbasis industri</li>
+                <li>Perpustakaan dan ruang baca</li>
+                <li>Lapangan kegiatan siswa</li>
+              </ul>
+            </section>
+
+            <section class="sidebar-box" id="galeri">
+              <div class="sidebar-box__header">
+                <h3>Quick Info</h3>
+              </div>
+              <div class="quick-info-grid">
+                <div>
+                  <span>Nama Sekolah</span>
+                  <strong id="sidebarSchoolName">SMK SchoolOps Nusantara</strong>
+                </div>
+                <div>
+                  <span>Alamat</span>
+                  <strong id="footerAddress">Jl. Pendidikan No. 10, Nusantara, Indonesia</strong>
+                </div>
+                <div>
+                  <span>Email</span>
+                  <strong id="footerEmail">info@schoolops.sch.id</strong>
+                </div>
+                <div>
+                  <span>Telepon</span>
+                  <strong id="footerPhone">(021) 555-7788</strong>
+                </div>
+              </div>
+            </section>
+          </aside>
         </section>
       </main>
 
-      <footer class="school-footer" id="kontak">
-        <div>
-          <h4 id="footerSchoolName">SMK SchoolOps Nusantara</h4>
-          <p id="footerAddress">Jl. Pendidikan No. 10, Nusantara, Indonesia</p>
-        </div>
-        <div>
-          <p>Email: <span id="footerEmail">info@schoolops.sch.id</span></p>
-          <p>Telepon: <span id="footerPhone">(021) 555-7788</span></p>
-          <p><a href="/admin">Login Admin</a></p>
+      <footer class="classic-footer" id="kontak">
+        <div class="classic-footer__inner">
+          <div>
+            <h4 id="footerSchoolName">SMK SchoolOps Nusantara</h4>
+            <p id="footerAddressBottom">Jl. Pendidikan No. 10, Nusantara, Indonesia</p>
+          </div>
+          <div>
+            <p>Email: <span id="footerEmailBottom">info@schoolops.sch.id</span></p>
+            <p>Telepon: <span id="footerPhoneBottom">(021) 555-7788</span></p>
+          </div>
         </div>
       </footer>
     </div>

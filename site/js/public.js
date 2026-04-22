@@ -16,10 +16,25 @@ async function loadPublicSite() {
 }
 
 function renderPublicSite(settings, announcements) {
-  document.title = (settings['Nama Sekolah'] || 'Website Sekolah') + ' | Website Sekolah';
-  setText('schoolName', settings['Nama Sekolah']);
-  setText('footerSchoolName', settings['Nama Sekolah']);
+  const schoolName = settings['Nama Sekolah'] || 'SMK SchoolOps Nusantara';
+  const phone = settings.Telepon || '(021) 555-7788';
+  const email = settings.Email || 'info@schoolops.sch.id';
+  const address = settings.Alamat || 'Jl. Pendidikan No. 10, Nusantara, Indonesia';
+  const heroImage = settings['Hero Gambar'] || 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80';
+
+  document.title = schoolName + ' | Website Sekolah';
+  setText('schoolName', schoolName);
   setText('schoolTagline', settings.Tagline);
+  setText('sidebarSchoolName', schoolName);
+  setText('footerSchoolName', schoolName);
+  setText('topPhone', phone);
+  setText('topEmail', email);
+  setText('footerAddress', address);
+  setText('footerAddressBottom', address);
+  setText('footerEmail', email);
+  setText('footerEmailBottom', email);
+  setText('footerPhone', phone);
+  setText('footerPhoneBottom', phone);
   setText('heroTitle', settings['Hero Judul']);
   setText('heroDescription', settings['Hero Deskripsi']);
   setText('stat1Value', settings['Stat 1 Angka']);
@@ -36,46 +51,62 @@ function renderPublicSite(settings, announcements) {
   setText('program2Description', settings['Program 2 Deskripsi']);
   setText('program3Name', settings['Program 3 Nama']);
   setText('program3Description', settings['Program 3 Deskripsi']);
-  setText('footerAddress', settings.Alamat);
-  setText('footerEmail', settings.Email);
-  setText('footerPhone', settings.Telepon);
-  setText('ctaHeadline', 'Bangun masa depan siswa bersama ' + (settings['Nama Sekolah'] || 'sekolah Anda') + '.');
-  setText('ctaDescription', settings['Tentang Isi']);
 
   const heroCta = document.getElementById('heroCta');
-  heroCta.textContent = settings['Hero CTA Label'] || 'Lihat Selengkapnya';
+  heroCta.textContent = settings['Hero CTA Label'] || 'Info PPDB';
   heroCta.href = settings['Hero CTA Link'] || '#kontak';
 
-  const heroImage = document.getElementById('heroImage');
-  heroImage.src = settings['Hero Gambar'] || '';
-  heroImage.alt = (settings['Nama Sekolah'] || 'Sekolah') + ' hero image';
+  const brandSeal = document.getElementById('brandSeal');
+  brandSeal.textContent = getInitials(schoolName);
 
-  document.getElementById('brandSeal').textContent = getInitials(settings['Nama Sekolah']);
+  document.getElementById('heroImage').src = heroImage;
+  document.getElementById('featureImage').src = heroImage;
+
   renderAnnouncements(announcements);
+  renderAgenda(announcements);
 }
 
 function renderAnnouncements(announcements) {
   const container = document.getElementById('newsGrid');
   if (!announcements.length) {
     container.innerHTML = `
-      <article class="news-card">
-        <span class="news-tag">Informasi</span>
+      <article class="classic-news-card">
+        <span class="classic-badge">Informasi</span>
         <h4>Belum ada berita terbaru yang tayang.</h4>
-        <p>Tambahkan pengumuman berstatus tayang dari dashboard admin untuk menampilkan berita di homepage.</p>
+        <p>Tambahkan pengumuman berstatus tayang dari dashboard admin untuk menampilkan berita terbaru di homepage.</p>
       </article>
     `;
     return;
   }
 
   container.innerHTML = announcements.map((item) => `
-    <article class="news-card">
-      <span class="news-tag">${window.escapeHtml(item.Kategori || 'Informasi')}</span>
+    <article class="classic-news-card">
+      <div class="classic-news-card__meta">
+        <span class="classic-badge">${window.escapeHtml(item.Kategori || 'Informasi')}</span>
+        <span>${window.formatDate(item['Tanggal Publikasi'])}</span>
+      </div>
       <h4>${window.escapeHtml(item.Judul || '-')}</h4>
       <p>${window.escapeHtml(item.Isi || '-')}</p>
-      <div class="meta-line">
-        <span>${window.formatDate(item['Tanggal Publikasi'])}</span>
-        <span class="badge">${window.escapeHtml(item.Status || '-')}</span>
-      </div>
+    </article>
+  `).join('');
+}
+
+function renderAgenda(announcements) {
+  const container = document.getElementById('agendaList');
+  if (!announcements.length) {
+    container.innerHTML = `
+      <article class="sidebar-agenda__item">
+        <h4>Belum ada agenda tayang.</h4>
+        <p>Tambahkan pengumuman sekolah dari dashboard admin.</p>
+      </article>
+    `;
+    return;
+  }
+
+  container.innerHTML = announcements.slice(0, 4).map((item) => `
+    <article class="sidebar-agenda__item">
+      <h4>${window.escapeHtml(item.Judul || '-')}</h4>
+      <p>${window.formatDate(item['Tanggal Publikasi'])} - ${window.escapeHtml(item.Kategori || 'Informasi')}</p>
     </article>
   `).join('');
 }
