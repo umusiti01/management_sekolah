@@ -29,27 +29,31 @@
         <div class="school-hero__content">
           <p class="eyebrow">Akses Admin</p>
           <h2>Masuk ke dashboard pengelolaan sekolah.</h2>
-          <p class="school-hero__copy">Halaman ini khusus untuk akses internal. Gunakan frontend access token untuk membuka dashboard siswa, guru, kelas, dan pengumuman.</p>
+          <p class="school-hero__copy">Halaman ini khusus untuk akses internal. Masuk menggunakan akun admin berbasis email dan password, lalu hak akses menu ditentukan oleh role dari backend.</p>
         </div>
 
         <section class="access-card">
           <div class="access-card-head">
             <p class="eyebrow">Login Portal</p>
             <h2>Masuk ke Portal Sekolah</h2>
-            <p>Token frontend diverifikasi di Vercel, lalu request diteruskan ke Apps Script melalui token server-side yang tersimpan aman di environment.</p>
+            <p>Login diverifikasi lewat proxy Vercel lalu diteruskan ke Apps Script. Setelah berhasil, browser menyimpan session admin dan akses modul mengikuti role akun Anda.</p>
           </div>
 
           <form id="accessForm" class="access-form">
             <label class="access-label">
-              <span>Frontend Access Token</span>
-              <input type="password" id="frontendToken" placeholder="Masukkan token akses" required>
+              <span>Email Admin</span>
+              <input type="email" id="adminEmail" placeholder="admin@sekolah.sch.id" required>
+            </label>
+            <label class="access-label">
+              <span>Password</span>
+              <input type="password" id="adminPassword" placeholder="Masukkan password" required>
             </label>
             <button type="submit" class="primary-button wide">Masuk ke Dashboard</button>
           </form>
 
           <div class="access-note">
-            <strong>Login terpisah</strong>
-            <span>Halaman utama website sekolah tetap publik, sedangkan dashboard admin dipisahkan di portal ini.</span>
+            <strong>Role-based access</strong>
+            <span>Halaman utama website sekolah tetap publik. Portal admin ini mendukung akun dengan role seperti admin, editor, operator, atau viewer sesuai data backend.</span>
           </div>
         </section>
       </main>
@@ -82,11 +86,17 @@
 
       <main class="main-panel">
         <header class="topbar">
-          <div>
+          <div class="topbar-title">
             <p class="eyebrow">Control Center</p>
             <h2 id="pageTitle">Dashboard Sekolah</h2>
+            <p class="topbar-subtitle">Panel operasional untuk website sekolah, data akademik, dan publikasi informasi.</p>
           </div>
           <div class="topbar-actions">
+            <div class="admin-profile-card">
+              <span class="admin-profile-card__label">Mode Akses</span>
+              <strong id="authModeLabel">Frontend Token</strong>
+              <small id="authUserLabel">Session internal aktif</small>
+            </div>
             <span class="status-chip" id="lastUpdated">Memuat data...</span>
             <button class="ghost-button" id="seedDataButton" type="button" hidden>Isi contoh data</button>
             <button class="primary-button" id="refreshButton" type="button">Refresh Data</button>
@@ -94,45 +104,143 @@
         </header>
 
         <section class="view active" id="dashboardView">
-          <div class="hero-card">
-            <div>
-              <p class="eyebrow">Ringkasan</p>
-              <h3>Kelola siswa, guru, kelas, dan pengumuman sekolah dari frontend Vercel yang terhubung ke Apps Script.</h3>
-              <p class="hero-copy">Arsitektur ini memisahkan UI dari backend. URL Apps Script dan token server-side disimpan di environment Vercel, bukan di browser.</p>
+          <section class="dashboard-overview">
+            <div class="dashboard-overview__main">
+              <div class="dashboard-overview__content">
+                <p class="eyebrow">CMS Control Panel</p>
+                <h3>Kelola website sekolah, data akademik, dan komunikasi publik dari satu ruang kerja operasional.</h3>
+                <p class="hero-copy">Dashboard ini diposisikan sebagai control panel internal: admin bisa memantau kesehatan data, membuka modul prioritas, dan menindaklanjuti tugas penting tanpa berpindah konteks terlalu jauh.</p>
+              </div>
+              <div class="dashboard-overview__metrics">
+                <article class="overview-metric">
+                  <span>Role Aktif</span>
+                  <strong id="authSummaryValue">Role Session</strong>
+                  <p id="authSummaryCopy">Dashboard memakai session admin dan permission berbasis role dari backend.</p>
+                </article>
+                <article class="overview-metric">
+                  <span>Modul Siap Pakai</span>
+                  <strong id="moduleCount">5 Modul</strong>
+                  <p id="moduleCountCopy">Website, siswa, guru, kelas, dan pengumuman berada dalam satu panel kerja.</p>
+                </article>
+                <article class="overview-metric">
+                  <span>Status Sinkronisasi</span>
+                  <strong id="systemHealth">Sinkron</strong>
+                  <p id="systemHealthCopy">Data dashboard diambil dari bootstrap Apps Script setiap kali halaman dimuat atau direfresh.</p>
+                </article>
+              </div>
+              <div class="dashboard-hero__actions">
+                <button class="primary-button" type="button" data-go-view="website">Kelola Website</button>
+                <button class="ghost-button" type="button" data-go-view="announcements">Buat Pengumuman</button>
+                <button class="ghost-button" type="button" data-go-view="students">Audit Data Siswa</button>
+              </div>
             </div>
-            <div class="hero-metrics">
+            <aside class="dashboard-overview__rail">
+              <section class="command-panel">
+                <div class="command-panel__head">
+                  <div>
+                    <p class="eyebrow">Prioritas Hari Ini</p>
+                    <h3>Alur kerja cepat admin</h3>
+                  </div>
+                  <span class="status-pill status-pill--blue" id="opsModeBadge">Mode CMS</span>
+                </div>
+                <div class="command-list">
+                  <article class="command-item">
+                    <span class="command-item__step">01</span>
+                    <div>
+                      <strong>Periksa homepage sekolah</strong>
+                      <p>Pastikan hero, kontak, dan identitas sekolah sudah siap tampil untuk pengunjung.</p>
+                    </div>
+                  </article>
+                  <article class="command-item">
+                    <span class="command-item__step">02</span>
+                    <div>
+                      <strong>Publikasikan update penting</strong>
+                      <p>Gunakan modul pengumuman untuk agenda, info akademik, dan kabar sekolah terbaru.</p>
+                    </div>
+                  </article>
+                  <article class="command-item">
+                    <span class="command-item__step">03</span>
+                    <div>
+                      <strong>Cek kesiapan data inti</strong>
+                      <p>Audit siswa, guru, dan kelas agar dashboard operasional tetap akurat.</p>
+                    </div>
+                  </article>
+                </div>
+              </section>
+            </aside>
+          </section>
+
+          <section class="dashboard-status-strip">
+            <article class="status-card">
+              <span class="status-card__label">Keamanan Session</span>
+              <strong id="authNoticeTitle">Session admin aktif</strong>
+              <p id="authNoticeCopy">Backend Apps Script perlu memvalidasi akun admin, membuat session, dan mengirim permission agar kontrol akses dashboard berjalan penuh.</p>
+            </article>
+            <article class="status-card">
+              <span class="status-card__label">Ruang Kerja Aktif</span>
+              <strong id="workspaceSummary">Dashboard Sekolah</strong>
+              <p id="workspaceSummaryCopy">Gunakan panel ini untuk berpindah cepat antara website, data akademik, dan komunikasi publik.</p>
+            </article>
+            <article class="status-card">
+              <span class="status-card__label">Fokus Operasional</span>
+              <strong id="opsSummary">Kontrol konten dan data inti</strong>
+              <p id="opsSummaryCopy">Dashboard menonjolkan modul prioritas agar admin tidak tenggelam di halaman CRUD biasa.</p>
+            </article>
+          </section>
+
+          <section class="dashboard-section">
+            <div class="section-heading">
               <div>
+                <p class="eyebrow">Ikhtisar Cepat</p>
+                <h3>Kondisi inti sekolah hari ini</h3>
+              </div>
+            </div>
+            <div class="stats-grid dashboard-stats-grid">
+              <article class="stat-card accent-blue">
                 <span>Total Siswa</span>
                 <strong id="totalStudents">0</strong>
-              </div>
-              <div>
+                <small>Basis data siswa yang sudah masuk ke panel admin.</small>
+              </article>
+              <article class="stat-card accent-blue">
+                <span>Siswa Aktif</span>
+                <strong id="activeStudents">0</strong>
+                <small>Siswa aktif yang masih berjalan pada periode ini.</small>
+              </article>
+              <article class="stat-card accent-gold">
                 <span>Total Guru</span>
                 <strong id="totalTeachers">0</strong>
+                <small>Total tenaga pengajar yang tercatat di sistem.</small>
+              </article>
+              <article class="stat-card accent-gold">
+                <span>Guru Aktif</span>
+                <strong id="activeTeachers">0</strong>
+                <small>Guru aktif yang mendukung operasional pembelajaran.</small>
+              </article>
+              <article class="stat-card accent-green">
+                <span>Total Kelas</span>
+                <strong id="totalClasses">0</strong>
+                <small>Ruang kelas atau rombel aktif di dashboard.</small>
+              </article>
+              <article class="stat-card accent-slate">
+                <span>Pengumuman Tayang</span>
+                <strong id="publishedAnnouncements">0</strong>
+                <small>Konten informasi yang sedang atau siap dipublikasikan.</small>
+              </article>
+            </div>
+          </section>
+
+          <section class="dashboard-section">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Workspace Modul</p>
+                <h3>Pilih area kerja utama tanpa keluar dari control panel</h3>
               </div>
             </div>
-          </div>
+            <div class="module-grid" id="moduleOverview"></div>
+          </section>
 
-          <div class="stats-grid">
-            <article class="stat-card accent-blue">
-              <span>Siswa Aktif</span>
-              <strong id="activeStudents">0</strong>
-            </article>
-            <article class="stat-card accent-gold">
-              <span>Guru Aktif</span>
-              <strong id="activeTeachers">0</strong>
-            </article>
-            <article class="stat-card accent-green">
-              <span>Total Kelas</span>
-              <strong id="totalClasses">0</strong>
-            </article>
-            <article class="stat-card accent-slate">
-              <span>Pengumuman Tayang</span>
-              <strong id="publishedAnnouncements">0</strong>
-            </article>
-          </div>
-
-          <div class="content-grid">
-            <section class="panel">
+          <div class="dashboard-grid">
+            <section class="panel dashboard-panel">
               <div class="panel-head">
                 <div>
                   <p class="eyebrow">Aktivitas</p>
@@ -142,7 +250,7 @@
               <div id="latestAnnouncements" class="stack-list"></div>
             </section>
 
-            <section class="panel">
+            <section class="panel dashboard-panel">
               <div class="panel-head">
                 <div>
                   <p class="eyebrow">Distribusi</p>
@@ -150,6 +258,26 @@
                 </div>
               </div>
               <div id="classHighlights" class="stack-list"></div>
+            </section>
+
+            <section class="panel dashboard-panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Website</p>
+                  <h3>Status konten homepage</h3>
+                </div>
+              </div>
+              <div id="websiteHealth" class="stack-list"></div>
+            </section>
+
+            <section class="panel dashboard-panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Akses</p>
+                  <h3>Checklist penguatan admin</h3>
+                </div>
+              </div>
+              <div id="authChecklist" class="stack-list"></div>
             </section>
           </div>
         </section>
