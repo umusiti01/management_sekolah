@@ -28,6 +28,12 @@ Starter project ini adalah aplikasi web berbasis Google Apps Script untuk mengel
 - `AppApiJs.html`: wrapper komunikasi client ke Apps Script
 - `AppRenderersJs.html`: semua renderer dashboard, tabel, dan card
 - `AppHandlersJs.html`: event binding, form handling, dan lifecycle halaman
+- `site/index.html`: frontend statis untuk Vercel
+- `site/styles/base.css`, `site/styles/components.css`: file CSS frontend Vercel
+- `site/js/*.js`: file JavaScript frontend Vercel
+- `api/school.js`: Vercel serverless proxy ke Apps Script
+- `vercel.json`: rewrite root Vercel ke frontend statis
+- `.env.example`: contoh environment variable untuk Vercel
 
 ## Cara Pakai di Google Apps Script
 
@@ -40,6 +46,7 @@ Starter project ini adalah aplikasi web berbasis Google Apps Script untuk mengel
    - `SCHOOL_VIEWER_EMAILS`
    - `SCHOOL_ALLOWED_DOMAIN` jika memakai Google Workspace sekolah
    - `SCHOOL_APP_ENV` dengan nilai `production` atau `development`
+   - `SCHOOL_API_TOKEN` untuk koneksi aman dari Vercel ke Apps Script
 5. Jalankan fungsi `initializeDatabase` sekali memakai akun admin untuk membuat spreadsheet database otomatis.
 6. Jalankan fungsi `doGet` lewat deployment Web App:
    - `Deploy` -> `New deployment`
@@ -61,6 +68,42 @@ Catatan:
 - Upsert sekarang merge dengan data lama, bukan overwrite buta
 - Audit trail menambah `Tanggal Diubah`, `Dibuat Oleh`, dan `Diubah Oleh`
 - Seed sample data dibatasi admin dan dimatikan di production secara default
+- Endpoint `doPost` tokenized untuk koneksi aman dari Vercel ke Apps Script
+
+## Frontend Vercel
+
+CSS frontend Vercel sekarang ada di:
+
+- `site/styles/base.css`
+- `site/styles/components.css`
+
+Arsitektur koneksinya:
+
+1. User membuka frontend di Vercel.
+2. Frontend mengirim request ke `/api/school` di Vercel.
+3. Vercel membaca `APPS_SCRIPT_URL` dan `APPS_SCRIPT_API_TOKEN` dari environment.
+4. Vercel meneruskan request ke Apps Script memakai token server-side.
+5. Apps Script memverifikasi `SCHOOL_API_TOKEN` lalu menjalankan action yang diminta.
+
+Token yang dipakai:
+
+- `FRONTEND_ACCESS_TOKEN`: token login sederhana antara browser dan Vercel
+- `APPS_SCRIPT_API_TOKEN`: token rahasia antara Vercel dan Apps Script
+
+## Setup Vercel
+
+1. Import repo GitHub ini ke Vercel.
+2. Tambahkan environment variables:
+   - `APPS_SCRIPT_URL`
+   - `APPS_SCRIPT_API_TOKEN`
+   - `FRONTEND_ACCESS_TOKEN`
+3. Deploy project.
+4. Buka URL Vercel lalu login memakai `FRONTEND_ACCESS_TOKEN`.
+
+Catatan penting:
+
+- `FRONTEND_ACCESS_TOKEN` adalah proteksi ringan untuk frontend admin.
+- Token paling sensitif adalah `APPS_SCRIPT_API_TOKEN` dan token ini tetap aman karena hanya dibaca oleh serverless Vercel, bukan browser.
 
 ## Database
 
