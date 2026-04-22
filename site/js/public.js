@@ -1,8 +1,39 @@
 document.addEventListener('DOMContentLoaded', () => {
   loadPublicSite().catch((error) => {
+    renderPublicSite({}, []);
     window.showToast(error.message || 'Gagal memuat konten website.');
   });
 });
+
+const DEMO_CONTENT = {
+  schoolName: 'SMK SchoolOps Nusantara',
+  phone: '(021) 555-7788',
+  email: 'info@schoolops.sch.id',
+  address: 'Jl. Pendidikan No. 10, Nusantara, Indonesia',
+  heroImage: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80',
+  featureImage: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=80'
+};
+
+const DEMO_ANNOUNCEMENTS = [
+  {
+    Kategori: 'Prestasi',
+    Judul: 'Tim siswa meraih juara inovasi teknologi tingkat provinsi',
+    Isi: 'Kolaborasi siswa dan guru pembimbing berhasil mengangkat proyek aplikasi edukasi menjadi juara pada lomba inovasi digital.',
+    'Tanggal Publikasi': '2026-04-12'
+  },
+  {
+    Kategori: 'Agenda',
+    Judul: 'Penerimaan Peserta Didik Baru gelombang 1 resmi dibuka',
+    Isi: 'Calon siswa dapat melihat jadwal pendaftaran, berkas yang dibutuhkan, serta alur seleksi melalui informasi sekolah.',
+    'Tanggal Publikasi': '2026-04-09'
+  },
+  {
+    Kategori: 'Kemitraan',
+    Judul: 'Sekolah memperkuat kerja sama dengan dunia usaha dan industri',
+    Isi: 'Kemitraan baru ini memperluas peluang magang, kunjungan industri, dan sinkronisasi kurikulum berbasis kebutuhan kerja.',
+    'Tanggal Publikasi': '2026-04-04'
+  }
+];
 
 async function loadPublicSite() {
   const response = await fetch('/api/school?action=getPublicSiteContent');
@@ -16,11 +47,13 @@ async function loadPublicSite() {
 }
 
 function renderPublicSite(settings, announcements) {
-  const schoolName = settings['Nama Sekolah'] || 'SMK SchoolOps Nusantara';
-  const phone = settings.Telepon || '(021) 555-7788';
-  const email = settings.Email || 'info@schoolops.sch.id';
-  const address = settings.Alamat || 'Jl. Pendidikan No. 10, Nusantara, Indonesia';
-  const heroImage = settings['Hero Gambar'] || 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80';
+  const schoolName = settings['Nama Sekolah'] || DEMO_CONTENT.schoolName;
+  const phone = settings.Telepon || DEMO_CONTENT.phone;
+  const email = settings.Email || DEMO_CONTENT.email;
+  const address = settings.Alamat || DEMO_CONTENT.address;
+  const heroImage = settings['Hero Gambar'] || DEMO_CONTENT.heroImage;
+  const featureImage = settings['Hero Gambar'] || DEMO_CONTENT.featureImage;
+  const newsItems = announcements.length ? announcements : DEMO_ANNOUNCEMENTS;
 
   document.title = schoolName + ' | Website Sekolah';
   setText('schoolName', schoolName);
@@ -60,10 +93,10 @@ function renderPublicSite(settings, announcements) {
   brandSeal.textContent = getInitials(schoolName);
 
   document.getElementById('heroImage').src = heroImage;
-  document.getElementById('featureImage').src = heroImage;
+  document.getElementById('featureImage').src = featureImage;
 
-  renderAnnouncements(announcements);
-  renderAgenda(announcements);
+  renderAnnouncements(newsItems);
+  renderAgenda(newsItems);
 }
 
 function renderAnnouncements(announcements) {

@@ -307,6 +307,31 @@
   gap: 16px;
 }
 
+.classic-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.classic-gallery__item {
+  margin: 0;
+  border: 1px solid #e2eaf1;
+  background: #f9fbfd;
+}
+
+.classic-gallery__item img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+.classic-gallery__item figcaption {
+  padding: 12px 14px;
+  color: #546579;
+  line-height: 1.6;
+}
+
 .classic-program-card {
   border: 1px solid #e2eaf1;
   padding: 18px;
@@ -399,6 +424,31 @@
   padding-left: 18px;
   color: #546579;
   line-height: 1.9;
+}
+
+.sidebar-box--promo {
+  background:
+    linear-gradient(160deg, rgba(47, 133, 192, 0.94), rgba(30, 112, 166, 0.96)),
+    #2f85c0;
+  color: #fff;
+}
+
+.sidebar-box--promo .sidebar-box__header h3,
+.sidebar-box--promo p {
+  color: #fff;
+}
+
+.sidebar-box--promo p {
+  margin: 0 0 16px;
+  line-height: 1.8;
+}
+
+.sidebar-box--promo .primary-button {
+  width: 100%;
+  justify-content: center;
+  background: #ffffff;
+  color: #1e70a6;
+  box-shadow: none;
 }
 
 .quick-info-grid {
@@ -1411,6 +1461,7 @@ th {
   .school-topbar__inner,
   .school-brandbar__inner,
   .classic-content,
+  .classic-gallery,
   .classic-programs,
   .school-hero,
   .school-stats,
