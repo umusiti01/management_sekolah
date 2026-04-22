@@ -6,7 +6,11 @@ document.addEventListener('DOMContentLoaded', () => {
   bindSearch();
   resetForm('announcementForm');
   if (window.getFrontendToken()) {
-    enterApplication();
+    enterApplication().catch((error) => {
+      window.clearFrontendToken();
+      setPublicMode();
+      window.showToast(error.message || 'Gagal membuka portal. Halaman sekolah publik ditampilkan kembali.');
+    });
   }
 });
 
@@ -33,14 +37,14 @@ function bindAccessGate() {
       closePortalModal();
     } catch (error) {
       window.clearFrontendToken();
+      setPublicMode();
       window.showToast(error.message);
     }
   });
 }
 
 async function enterApplication() {
-  document.getElementById('publicSite').hidden = true;
-  document.getElementById('appShell').hidden = false;
+  setAppMode();
   await loadData();
 }
 
@@ -64,8 +68,7 @@ function bindActions() {
 
   document.getElementById('logoutButton').addEventListener('click', () => {
     window.clearFrontendToken();
-    document.getElementById('appShell').hidden = true;
-    document.getElementById('publicSite').hidden = false;
+    setPublicMode();
     closePortalModal();
   });
 
@@ -191,6 +194,16 @@ function openPortalModal(role) {
 
 function closePortalModal() {
   document.getElementById('portalModal').hidden = true;
+}
+
+function setPublicMode() {
+  document.getElementById('publicSite').hidden = false;
+  document.getElementById('appShell').hidden = true;
+}
+
+function setAppMode() {
+  document.getElementById('publicSite').hidden = true;
+  document.getElementById('appShell').hidden = false;
 }
 
 function applyPortalRole(role) {
