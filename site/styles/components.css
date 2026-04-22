@@ -27,6 +27,12 @@
   font-size: 1.25rem;
 }
 
+.header-tagline {
+  margin: 6px 0 0;
+  color: var(--muted);
+  max-width: 520px;
+}
+
 .school-nav {
   display: flex;
   align-items: center;
@@ -62,6 +68,10 @@
   grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
   gap: 26px;
   align-items: stretch;
+}
+
+.school-hero--visual {
+  align-items: center;
 }
 
 .school-hero__content,
@@ -169,6 +179,67 @@
     linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(245, 249, 255, 0.94) 100%);
 }
 
+.school-hero__media {
+  min-height: 540px;
+  border-radius: 32px;
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(160deg, rgba(12, 52, 87, 0.12), rgba(12, 52, 87, 0.02)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(240, 246, 255, 0.92));
+  box-shadow: var(--shadow);
+}
+
+.hero-photo-frame,
+.hero-photo-frame img {
+  width: 100%;
+  height: 100%;
+}
+
+.hero-photo-frame img {
+  object-fit: cover;
+  display: block;
+}
+
+.school-hero__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(10, 52, 88, 0.1), rgba(10, 52, 88, 0.32));
+}
+
+.hero-floating-card {
+  position: absolute;
+  z-index: 1;
+  padding: 18px 20px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: var(--shadow);
+  max-width: 250px;
+}
+
+.hero-floating-card span {
+  display: block;
+  color: var(--muted);
+  margin-bottom: 6px;
+  font-size: 0.84rem;
+}
+
+.hero-floating-card strong {
+  color: var(--primary-deep);
+  line-height: 1.4;
+}
+
+.hero-floating-card--top {
+  top: 24px;
+  left: 24px;
+}
+
+.hero-floating-card--bottom {
+  right: 24px;
+  bottom: 24px;
+}
+
 .hero-panel-card {
   padding: 22px;
   border-radius: 22px;
@@ -224,6 +295,13 @@
   padding-top: 26px;
 }
 
+.school-section--split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
+  gap: 22px;
+  align-items: start;
+}
+
 .section-copy {
   max-width: 760px;
   margin-bottom: 20px;
@@ -234,6 +312,38 @@
   font-size: clamp(1.6rem, 3vw, 2.4rem);
   line-height: 1.2;
   color: var(--primary-deep);
+}
+
+.section-feature-card {
+  padding: 28px;
+  border-radius: 28px;
+  color: #f8fbff;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)),
+    linear-gradient(145deg, #0c3457 0%, #0b5987 56%, #106c77 100%);
+  box-shadow: var(--shadow);
+}
+
+.section-feature-card h4 {
+  margin: 0 0 12px;
+  font-size: 1.5rem;
+  line-height: 1.35;
+}
+
+.section-feature-card p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.8;
+}
+
+.feature-badge {
+  display: inline-flex;
+  padding: 8px 12px;
+  border-radius: 999px;
+  margin-bottom: 16px;
+  background: rgba(255, 255, 255, 0.16);
+  font-size: 0.82rem;
+  font-weight: 800;
 }
 
 .section-copy p:last-child {
@@ -682,6 +792,45 @@
   gap: 14px;
 }
 
+.website-layout {
+  grid-template-columns: minmax(0, 0.9fr) minmax(360px, 1.1fr);
+}
+
+.website-preview-card {
+  overflow: hidden;
+  border-radius: 24px;
+  border: 1px solid var(--line);
+  background: #fff;
+}
+
+.website-preview-card__media {
+  height: 280px;
+  background: #dbe8f4;
+}
+
+.website-preview-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.website-preview-card__content {
+  padding: 22px;
+}
+
+.website-preview-card__content h4 {
+  margin: 0 0 10px;
+  color: var(--primary-deep);
+  font-size: 1.5rem;
+}
+
+.website-preview-card__content p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
 .stack-item,
 .announcement-card {
   padding: 18px;
@@ -834,6 +983,7 @@ th {
   .school-hero,
   .school-stats,
   .section-card-grid,
+  .school-section--split,
   .program-grid,
   .news-grid,
   .app-shell,
@@ -861,6 +1011,10 @@ th {
   .school-hero__content {
     padding: 30px;
   }
+
+  .school-hero__media {
+    min-height: 400px;
+  }
 }
 
 @media (max-width: 720px) {
@@ -876,6 +1030,7 @@ th {
   }
 
   .school-hero__content,
+  .school-hero__media,
   .school-hero__panel,
   .school-cta,
   .school-header {
@@ -906,5 +1061,11 @@ th {
     width: calc(100% - 24px);
     margin-left: auto;
     margin-right: auto;
+  }
+
+  .hero-floating-card {
+    position: static;
+    margin: 16px;
+    max-width: none;
   }
 }

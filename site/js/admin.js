@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   bindForms();
   bindSearch();
   resetForm('announcementForm');
+  resetForm('websiteForm');
 
   document.getElementById('accessForm').addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -80,6 +81,11 @@ function bindActions() {
     button.addEventListener('click', () => resetForm(button.dataset.resetForm));
   });
 
+  document.getElementById('websiteForm').addEventListener('input', () => {
+    window.APP_STATE.websiteSettings = Object.fromEntries(new FormData(document.getElementById('websiteForm')).entries());
+    renderWebsitePreview();
+  });
+
   document.addEventListener('click', (event) => {
     const editButton = event.target.closest('[data-edit-form]');
     if (editButton) {
@@ -97,6 +103,7 @@ function bindActions() {
 }
 
 function bindForms() {
+  bindFormSubmit('websiteForm', 'saveSiteSettings');
   bindFormSubmit('studentForm', 'saveStudent');
   bindFormSubmit('teacherForm', 'saveTeacher');
   bindFormSubmit('classForm', 'saveClassroom');
@@ -134,9 +141,12 @@ async function loadData() {
   window.APP_STATE.teachers = payload.teachers || [];
   window.APP_STATE.classes = payload.classes || [];
   window.APP_STATE.announcements = payload.announcements || [];
+  window.APP_STATE.websiteSettings = payload.websiteSettings || {};
   window.indexRecords();
 
   window.renderDashboard(payload);
+  hydrateWebsiteForm();
+  renderWebsitePreview();
   window.renderStudentsTable();
   window.renderTeachersTable();
   window.renderClassesTable();
@@ -144,6 +154,27 @@ async function loadData() {
 
   document.getElementById('lastUpdated').textContent =
     'Update: ' + new Date(payload.generatedAt).toLocaleString('id-ID');
+}
+
+function hydrateWebsiteForm() {
+  const form = document.getElementById('websiteForm');
+  Object.keys(window.APP_STATE.websiteSettings || {}).forEach((key) => {
+    const field = form.elements.namedItem(key);
+    if (field) {
+      field.value = window.APP_STATE.websiteSettings[key] || '';
+    }
+  });
+}
+
+function renderWebsitePreview() {
+  const settings = window.APP_STATE.websiteSettings || {};
+  const image = document.getElementById('websitePreviewImage');
+  image.src = settings['Hero Gambar'] || 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1200&q=80';
+  image.alt = (settings['Nama Sekolah'] || 'Sekolah') + ' preview';
+  document.getElementById('websitePreviewTitle').textContent = settings['Hero Judul'] || 'Judul hero website';
+  document.getElementById('websitePreviewDescription').textContent = settings['Hero Deskripsi'] || 'Deskripsi hero website akan tampil di sini.';
+  document.getElementById('websitePreviewSchool').textContent = settings['Nama Sekolah'] || 'Nama sekolah';
+  document.getElementById('websitePreviewContact').textContent = [settings.Email || '-', settings.Telepon || '-'].join(' | ');
 }
 
 function editRecord(formId, record) {
@@ -184,5 +215,9 @@ function resetForm(formId) {
   const dateField = form.elements.namedItem('Tanggal Publikasi');
   if (dateField) {
     dateField.value = new Date().toISOString().slice(0, 10);
+  }
+  if (formId === 'websiteForm') {
+    hydrateWebsiteForm();
+    renderWebsitePreview();
   }
 }

@@ -14,10 +14,11 @@
     <div class="public-site" id="publicSite">
       <header class="school-header">
         <div class="school-header__brand">
-          <div class="school-seal">SP</div>
+          <div class="school-seal" id="brandSeal">SP</div>
           <div>
             <p class="eyebrow">SITUS RESMI SEKOLAH</p>
-            <h1>SMK SchoolOps Nusantara</h1>
+            <h1 id="schoolName">SMK SchoolOps Nusantara</h1>
+            <p class="header-tagline" id="schoolTagline">Sekolah vokasi modern yang unggul, tertib, dan siap masa depan.</p>
           </div>
         </div>
         <nav class="school-nav">
@@ -29,93 +30,79 @@
       </header>
 
       <main>
-        <section class="school-hero">
+        <section class="school-hero school-hero--visual">
           <div class="school-hero__content">
             <p class="eyebrow">Sekolah Unggul dan Berkarakter</p>
-            <h2>Membentuk Generasi Siap Kerja, Siap Kuliah, dan Siap Memimpin.</h2>
-            <p class="school-hero__copy">SMK SchoolOps Nusantara menghadirkan pendidikan vokasi modern dengan pendekatan disiplin, teknologi, dan pembinaan karakter agar setiap siswa tumbuh menjadi pribadi yang kompeten serta berakhlak baik.</p>
+            <h2 id="heroTitle">Membentuk Generasi Siap Kerja, Siap Kuliah, dan Siap Memimpin.</h2>
+            <p class="school-hero__copy" id="heroDescription">SMK SchoolOps Nusantara menghadirkan pembelajaran vokasi yang dekat dengan industri, kuat di karakter, dan ramah teknologi untuk menyiapkan lulusan yang percaya diri.</p>
             <div class="school-hero__actions">
-              <a class="primary-button link-button" href="#ppdb">Info PPDB</a>
-              <a class="ghost-button link-button school-hero__ghost" href="#kontak">Hubungi Sekolah</a>
+              <a class="primary-button link-button" id="heroCta" href="#kontak">Info PPDB</a>
+              <a class="ghost-button link-button school-hero__ghost" href="/admin">Login Admin</a>
             </div>
           </div>
-          <div class="school-hero__panel">
-            <div class="hero-panel-card">
-              <span>Akreditasi</span>
-              <strong>Unggul</strong>
+          <div class="school-hero__media" id="heroMedia">
+            <div class="hero-photo-frame">
+              <img id="heroImage" alt="Foto utama sekolah">
             </div>
-            <div class="hero-panel-card">
-              <span>Program Keahlian</span>
-              <strong>6 Jurusan</strong>
+            <div class="hero-floating-card hero-floating-card--top">
+              <span>Lingkungan belajar</span>
+              <strong>Modern dan hangat</strong>
             </div>
-            <div class="hero-panel-card">
-              <span>Mitra Industri</span>
-              <strong>32 Partner</strong>
+            <div class="hero-floating-card hero-floating-card--bottom">
+              <span>Kelola lewat CMS</span>
+              <strong>Foto hero dan isi website bisa diubah admin</strong>
             </div>
           </div>
         </section>
 
-        <section class="school-stats">
+        <section class="school-stats" id="statsGrid">
           <article>
-            <strong>1.250+</strong>
-            <span>Siswa Aktif</span>
+            <strong id="stat1Value">1.250+</strong>
+            <span id="stat1Label">Siswa Aktif</span>
           </article>
           <article>
-            <strong>78</strong>
-            <span>Tenaga Pendidik</span>
+            <strong id="stat2Value">78</strong>
+            <span id="stat2Label">Tenaga Pendidik</span>
           </article>
           <article>
-            <strong>96%</strong>
-            <span>Lulusan Terserap</span>
-          </article>
-          <article>
-            <strong>18</strong>
-            <span>Prestasi Tahun Ini</span>
+            <strong id="stat3Value">96%</strong>
+            <span id="stat3Label">Lulusan Terserap</span>
           </article>
         </section>
 
-        <section class="school-section" id="tentang">
+        <section class="school-section school-section--split" id="tentang">
           <div class="section-copy">
             <p class="eyebrow">Profil Sekolah</p>
-            <h3>Lingkungan belajar yang tertib, hangat, dan berorientasi masa depan.</h3>
-            <p>Website sekolah seharusnya terasa seperti wajah institusi: tenang, terpercaya, dan informatif. Karena itu halaman depan ini kami arahkan menjadi profil sekolah publik, sementara dashboard pengelolaan data kami taruh di portal internal.</p>
+            <h3 id="aboutTitle">Lingkungan belajar yang tertib, hangat, dan berorientasi masa depan.</h3>
+            <p id="aboutDescription">Website sekolah adalah wajah institusi. Karena itu tampilannya harus hidup, visual, dan informatif sambil tetap mudah dikelola oleh admin sekolah.</p>
           </div>
-          <div class="section-card-grid">
-            <article class="info-card">
-              <h4>Visi</h4>
-              <p>Menjadi sekolah vokasi yang unggul, adaptif terhadap teknologi, dan berdaya saing global.</p>
-            </article>
-            <article class="info-card">
-              <h4>Misi</h4>
-              <p>Menyelenggarakan pembelajaran berbasis praktik, kolaborasi industri, dan pembentukan karakter.</p>
-            </article>
-            <article class="info-card">
-              <h4>Budaya Sekolah</h4>
-              <p>Disiplin, santun, kreatif, dan bertanggung jawab dalam setiap aktivitas akademik maupun non-akademik.</p>
-            </article>
+          <div class="section-feature-card">
+            <span class="feature-badge">CMS Sekolah</span>
+            <h4>Admin bisa mengatur hero image, headline, statistik, program, dan kontak tanpa mengubah layout publik.</h4>
+            <p>Portal admin sekarang punya panel khusus website untuk mengelola isi landing page sekolah dengan gaya seperti mini CMS.</p>
           </div>
         </section>
 
         <section class="school-section alt" id="program">
           <div class="section-copy">
             <p class="eyebrow">Program Unggulan</p>
-            <h3>Program yang dekat dengan kebutuhan dunia industri dan dunia kerja.</h3>
+            <h3>Jurusan dan pembelajaran yang dekat dengan kebutuhan dunia kerja.</h3>
           </div>
-          <div class="program-grid">
+          <div class="program-grid" id="programGrid">
             <article class="program-card">
               <span>01</span>
-              <h4>Rekayasa Perangkat Lunak</h4>
-              <p>Pembelajaran coding, UI/UX, project digital, dan penguatan portofolio teknologi.</p>
+              <h4 id="program1Name">Rekayasa Perangkat Lunak</h4>
+              <p id="program1Description">Belajar coding, UI/UX, project digital, dan penguatan portofolio teknologi.</p>
             </article>
             <article class="program-card">
               <span>02</span>
-              <h4>Akuntansi dan Keuangan</h4>
-              <p>Penguasaan laporan keuangan, administrasi bisnis, dan aplikasi perkantoran modern.</p>
+              <h4 id="program2Name">Akuntansi dan Keuangan</h4>
+              <p id="program2Description">Penguasaan laporan keuangan, administrasi bisnis, dan aplikasi perkantoran modern.</p>
             </article>
             <article class="program-card">
               <span>03</span>
-              <h4>Teknik Jaringan Komputer</h4>
-              <p>Instalasi jaringan, keamanan dasar, dan praktik laboratorium berbasis kebutuhan industri.</p>
+              <h4 id="program3Name">Teknik Jaringan Komputer</h4>
+              <p id="program3Description">Instalasi jaringan, keamanan dasar, dan praktik laboratorium berbasis industri.</p>
             </article>
           </div>
         </section>
@@ -125,21 +112,11 @@
             <p class="eyebrow">Berita & Agenda</p>
             <h3>Informasi terbaru sekolah, kegiatan siswa, dan agenda penting untuk orang tua.</h3>
           </div>
-          <div class="news-grid">
+          <div class="news-grid" id="newsGrid">
             <article class="news-card">
-              <span class="news-tag">Prestasi</span>
-              <h4>Tim sekolah meraih juara kompetisi inovasi digital tingkat provinsi.</h4>
-              <p>Siswa berhasil membawa pulang penghargaan berkat proyek aplikasi edukasi yang dikembangkan bersama guru pembimbing.</p>
-            </article>
-            <article class="news-card">
-              <span class="news-tag">Agenda</span>
-              <h4>Penerimaan Peserta Didik Baru gelombang 1 resmi dibuka.</h4>
-              <p>Calon siswa dan orang tua dapat melihat jadwal, syarat pendaftaran, dan informasi seleksi melalui halaman PPDB sekolah.</p>
-            </article>
-            <article class="news-card">
-              <span class="news-tag">Kemitraan</span>
-              <h4>Penandatanganan kerja sama dengan dunia usaha dan industri lokal.</h4>
-              <p>Kolaborasi ini membuka peluang magang, kunjungan industri, dan penguatan kompetensi lulusan.</p>
+              <span class="news-tag">Informasi</span>
+              <h4>Konten berita sekolah akan tampil di sini.</h4>
+              <p>Tambahkan pengumuman berstatus tayang dari dashboard admin untuk menampilkan berita terbaru di homepage.</p>
             </article>
           </div>
         </section>
@@ -147,27 +124,32 @@
         <section class="school-cta" id="ppdb">
           <div>
             <p class="eyebrow light">Penerimaan Peserta Didik Baru</p>
-            <h3>Bergabung bersama sekolah yang menyiapkan masa depan siswa secara nyata.</h3>
-            <p>Hubungi panitia PPDB untuk jadwal pendaftaran, jalur seleksi, dan informasi kunjungan kampus sekolah.</p>
+            <h3 id="ctaHeadline">Bangun citra sekolah yang lebih hidup dengan visual hero, statistik, dan berita terbaru.</h3>
+            <p id="ctaDescription">Hubungi sekolah untuk informasi pendaftaran, kunjungan kampus, serta program unggulan yang paling sesuai untuk calon siswa.</p>
           </div>
           <div class="school-cta__actions">
             <a class="primary-button link-button" href="#kontak">Hubungi Sekolah</a>
-            <a class="ghost-button link-button" href="#tentang">Lihat Profil</a>
+            <a class="ghost-button link-button" href="/admin">Kelola Website</a>
           </div>
         </section>
       </main>
 
       <footer class="school-footer" id="kontak">
         <div>
-          <h4>SMK SchoolOps Nusantara</h4>
-          <p>Jl. Pendidikan No. 10, Nusantara, Indonesia</p>
+          <h4 id="footerSchoolName">SMK SchoolOps Nusantara</h4>
+          <p id="footerAddress">Jl. Pendidikan No. 10, Nusantara, Indonesia</p>
         </div>
         <div>
-          <p>Email: info@schoolops.sch.id</p>
-          <p>Telepon: (021) 555-7788</p>
+          <p>Email: <span id="footerEmail">info@schoolops.sch.id</span></p>
+          <p>Telepon: <span id="footerPhone">(021) 555-7788</span></p>
           <p><a href="/admin">Login Admin</a></p>
         </div>
       </footer>
     </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="/js/utils.js"></script>
+    <script src="/js/public.js"></script>
   </body>
 </html>

@@ -3,6 +3,7 @@ window.APP_STATE = {
   teachers: [],
   classes: [],
   announcements: [],
+  websiteSettings: {},
   recordsById: {},
   auth: {
     email: 'vercel-token',
@@ -17,18 +18,21 @@ window.FORM_IDS = {
   students: 'studentForm',
   teachers: 'teacherForm',
   classes: 'classForm',
-  announcements: 'announcementForm'
+  announcements: 'announcementForm',
+  website: 'websiteForm'
 };
 
 window.FORM_MODULES = {
   studentForm: 'students',
   teacherForm: 'teachers',
   classForm: 'classes',
-  announcementForm: 'announcements'
+  announcementForm: 'announcements',
+  websiteForm: 'website'
 };
 
 window.VIEW_TITLES = {
   dashboard: 'Dashboard Sekolah',
+  website: 'CMS Website Sekolah',
   students: 'Manajemen Siswa',
   teachers: 'Manajemen Guru',
   classes: 'Manajemen Kelas',

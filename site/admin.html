@@ -67,6 +67,7 @@
 
         <nav class="menu">
           <button class="menu-item active" data-view="dashboard">Dashboard</button>
+          <button class="menu-item" data-view="website">Website</button>
           <button class="menu-item" data-view="students">Siswa</button>
           <button class="menu-item" data-view="teachers">Guru</button>
           <button class="menu-item" data-view="classes">Kelas</button>
@@ -149,6 +150,73 @@
                 </div>
               </div>
               <div id="classHighlights" class="stack-list"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="websiteView">
+          <div class="section-layout website-layout">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">CMS Website</p>
+                  <h3>Preview konten website sekolah</h3>
+                </div>
+              </div>
+              <div class="website-preview-card" id="websitePreviewCard">
+                <div class="website-preview-card__media">
+                  <img id="websitePreviewImage" alt="Preview hero website">
+                </div>
+                <div class="website-preview-card__content">
+                  <span class="news-tag">Live Preview</span>
+                  <h4 id="websitePreviewTitle">Judul hero website</h4>
+                  <p id="websitePreviewDescription">Deskripsi hero website akan tampil di sini.</p>
+                  <div class="meta-line">
+                    <span id="websitePreviewSchool">Nama sekolah</span>
+                    <span id="websitePreviewContact">Kontak sekolah</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="panel form-panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Pengaturan</p>
+                  <h3>Konten halaman depan</h3>
+                </div>
+              </div>
+              <form id="websiteForm" class="data-form">
+                <input type="hidden" name="ID">
+                <label><span>Nama Sekolah</span><input name="Nama Sekolah" required></label>
+                <label><span>Tagline</span><input name="Tagline"></label>
+                <label><span>Hero Judul</span><input name="Hero Judul" required></label>
+                <label><span>Hero Deskripsi</span><textarea name="Hero Deskripsi" rows="4" required></textarea></label>
+                <label><span>Hero Gambar (URL)</span><input name="Hero Gambar" type="url" placeholder="https://..."></label>
+                <label><span>Hero CTA Label</span><input name="Hero CTA Label"></label>
+                <label><span>Hero CTA Link</span><input name="Hero CTA Link" placeholder="#kontak atau https://..."></label>
+                <label><span>Stat 1 Angka</span><input name="Stat 1 Angka"></label>
+                <label><span>Stat 1 Label</span><input name="Stat 1 Label"></label>
+                <label><span>Stat 2 Angka</span><input name="Stat 2 Angka"></label>
+                <label><span>Stat 2 Label</span><input name="Stat 2 Label"></label>
+                <label><span>Stat 3 Angka</span><input name="Stat 3 Angka"></label>
+                <label><span>Stat 3 Label</span><input name="Stat 3 Label"></label>
+                <label><span>Tentang Judul</span><input name="Tentang Judul"></label>
+                <label><span>Tentang Isi</span><textarea name="Tentang Isi" rows="4"></textarea></label>
+                <label><span>Program 1 Nama</span><input name="Program 1 Nama"></label>
+                <label><span>Program 1 Deskripsi</span><textarea name="Program 1 Deskripsi" rows="3"></textarea></label>
+                <label><span>Program 2 Nama</span><input name="Program 2 Nama"></label>
+                <label><span>Program 2 Deskripsi</span><textarea name="Program 2 Deskripsi" rows="3"></textarea></label>
+                <label><span>Program 3 Nama</span><input name="Program 3 Nama"></label>
+                <label><span>Program 3 Deskripsi</span><textarea name="Program 3 Deskripsi" rows="3"></textarea></label>
+                <label><span>Alamat</span><textarea name="Alamat" rows="3"></textarea></label>
+                <label><span>Email</span><input name="Email" type="email"></label>
+                <label><span>Telepon</span><input name="Telepon"></label>
+                <div class="form-actions">
+                  <button type="button" class="ghost-button" data-reset-form="websiteForm">Reset</button>
+                  <button type="submit" class="primary-button">Simpan Website</button>
+                </div>
+              </form>
             </section>
           </div>
         </section>
