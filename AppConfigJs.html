@@ -1,0 +1,38 @@
+<script>
+  const APP_STATE = {
+    students: [],
+    teachers: [],
+    classes: [],
+    announcements: [],
+    recordsById: {},
+    auth: {
+      email: '',
+      isAdmin: false,
+      canWrite: false,
+      canDelete: false,
+      canSeed: false
+    }
+  };
+
+  const FORM_IDS = {
+    students: 'studentForm',
+    teachers: 'teacherForm',
+    classes: 'classForm',
+    announcements: 'announcementForm'
+  };
+
+  const VIEW_TITLES = {
+    dashboard: 'Dashboard Sekolah',
+    students: 'Manajemen Siswa',
+    teachers: 'Manajemen Guru',
+    classes: 'Manajemen Kelas',
+    announcements: 'Pengumuman Sekolah'
+  };
+
+  const FORM_MODULES = {
+    studentForm: 'students',
+    teacherForm: 'teachers',
+    classForm: 'classes',
+    announcementForm: 'announcements'
+  };
+</script>

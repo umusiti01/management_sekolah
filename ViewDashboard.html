@@ -1,0 +1,60 @@
+<section class="view active" id="dashboardView">
+  <div class="hero-card">
+    <div>
+      <p class="eyebrow">Ringkasan</p>
+      <h3>Kelola siswa, guru, kelas, dan pengumuman sekolah dengan alur yang cepat.</h3>
+      <p class="hero-copy">Dashboard ini dirancang untuk admin sekolah agar operasional harian lebih tertib, data lebih mudah dicari, dan keputusan bisa diambil lebih cepat.</p>
+    </div>
+    <div class="hero-metrics">
+      <div>
+        <span>Total Siswa</span>
+        <strong id="totalStudents">0</strong>
+      </div>
+      <div>
+        <span>Total Guru</span>
+        <strong id="totalTeachers">0</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <article class="stat-card accent-blue">
+      <span>Siswa Aktif</span>
+      <strong id="activeStudents">0</strong>
+    </article>
+    <article class="stat-card accent-gold">
+      <span>Guru Aktif</span>
+      <strong id="activeTeachers">0</strong>
+    </article>
+    <article class="stat-card accent-green">
+      <span>Total Kelas</span>
+      <strong id="totalClasses">0</strong>
+    </article>
+    <article class="stat-card accent-slate">
+      <span>Pengumuman Tayang</span>
+      <strong id="publishedAnnouncements">0</strong>
+    </article>
+  </div>
+
+  <div class="content-grid">
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <p class="eyebrow">Aktivitas</p>
+          <h3>Pengumuman terbaru</h3>
+        </div>
+      </div>
+      <div id="latestAnnouncements" class="stack-list"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <p class="eyebrow">Distribusi</p>
+          <h3>Kelas aktif</h3>
+        </div>
+      </div>
+      <div id="classHighlights" class="stack-list"></div>
+    </section>
+  </div>
+</section>

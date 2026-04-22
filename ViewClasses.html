@@ -1,0 +1,55 @@
+<section class="view" id="classesView">
+  <div class="section-layout">
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <p class="eyebrow">Akademik</p>
+          <h3>Daftar kelas</h3>
+        </div>
+        <input class="search-input" id="classSearch" placeholder="Cari kelas atau wali kelas">
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Nama Kelas</th>
+              <th>Wali Kelas</th>
+              <th>Kapasitas</th>
+              <th>Tahun Ajaran</th>
+              <th>Status</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="classesTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel form-panel">
+      <div class="panel-head">
+        <div>
+          <p class="eyebrow">Input</p>
+          <h3>Form kelas</h3>
+        </div>
+      </div>
+      <form id="classForm" class="data-form">
+        <input type="hidden" name="ID">
+        <label><span>Nama Kelas</span><input name="Nama Kelas" required></label>
+        <label><span>Wali Kelas</span><input name="Wali Kelas" required></label>
+        <label><span>Kapasitas</span><input name="Kapasitas" type="number" min="1"></label>
+        <label><span>Tahun Ajaran</span><input name="Tahun Ajaran" placeholder="2026/2027" required></label>
+        <label><span>Status</span>
+          <select name="Status" required>
+            <option>Aktif</option>
+            <option>Penuh</option>
+            <option>Ditutup</option>
+          </select>
+        </label>
+        <div class="form-actions">
+          <button type="button" class="ghost-button" data-reset-form="classForm">Reset</button>
+          <button type="submit" class="primary-button">Simpan Kelas</button>
+        </div>
+      </form>
+    </section>
+  </div>
+</section>

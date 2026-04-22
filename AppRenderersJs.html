@@ -1,0 +1,148 @@
+<script>
+  function indexRecords() {
+    APP_STATE.recordsById = {};
+    [
+      { moduleKey: 'students', records: APP_STATE.students },
+      { moduleKey: 'teachers', records: APP_STATE.teachers },
+      { moduleKey: 'classes', records: APP_STATE.classes },
+      { moduleKey: 'announcements', records: APP_STATE.announcements }
+    ].forEach((group) => {
+      group.records.forEach((record) => {
+        if (record.ID) {
+          APP_STATE.recordsById[buildRecordKey(group.moduleKey, record.ID)] = record;
+        }
+      });
+    });
+  }
+
+  function renderDashboard(payload) {
+    APP_STATE.auth = payload.auth || APP_STATE.auth;
+    document.getElementById('totalStudents').textContent = payload.stats.totalStudents;
+    document.getElementById('totalTeachers').textContent = payload.stats.totalTeachers;
+    document.getElementById('activeStudents').textContent = payload.stats.activeStudents;
+    document.getElementById('activeTeachers').textContent = payload.stats.activeTeachers;
+    document.getElementById('totalClasses').textContent = payload.stats.totalClasses;
+    document.getElementById('publishedAnnouncements').textContent = payload.stats.publishedAnnouncements;
+
+    document.getElementById('latestAnnouncements').innerHTML = (APP_STATE.announcements.slice(0, 4).map((item) => `
+      <article class="stack-item">
+        <h4>${escapeHtml(item.Judul || '-')}</h4>
+        <p>${escapeHtml(item.Isi || '-')}</p>
+        <div class="meta-line">
+          <span class="badge">${escapeHtml(item.Kategori || 'Informasi')}</span>
+          <span>${formatDate(item['Tanggal Publikasi'])}</span>
+          <span>${escapeHtml(item.Status || '-')}</span>
+        </div>
+      </article>
+    `).join('')) || '<p>Belum ada pengumuman.</p>';
+
+    document.getElementById('classHighlights').innerHTML = (APP_STATE.classes.slice(0, 5).map((item) => `
+      <article class="stack-item">
+        <h4>${escapeHtml(item['Nama Kelas'] || '-')}</h4>
+        <p>Wali kelas: ${escapeHtml(item['Wali Kelas'] || '-')}</p>
+        <div class="meta-line">
+          <span>Kapasitas ${escapeHtml(item.Kapasitas || '0')}</span>
+          <span>${escapeHtml(item['Tahun Ajaran'] || '-')}</span>
+          <span class="badge">${escapeHtml(item.Status || '-')}</span>
+        </div>
+      </article>
+    `).join('')) || '<p>Belum ada kelas yang terdaftar.</p>';
+
+    const seedButton = document.getElementById('seedDataButton');
+    if (seedButton) {
+      seedButton.hidden = !APP_STATE.auth.canSeed;
+      seedButton.disabled = !APP_STATE.auth.canSeed;
+    }
+  }
+
+  function renderStudentsTable() {
+    renderGenericTable('studentSearch', 'studentsTable', APP_STATE.students, ['NIS', 'Nama', 'Kelas'], ['NIS', 'Nama', 'Kelas', 'No HP', 'Status'], 'students');
+  }
+
+  function renderTeachersTable() {
+    renderGenericTable('teacherSearch', 'teachersTable', APP_STATE.teachers, ['NIP', 'Nama', 'Mapel'], ['NIP', 'Nama', 'Jabatan', 'Mapel', 'Status'], 'teachers');
+  }
+
+  function renderClassesTable() {
+    renderGenericTable('classSearch', 'classesTable', APP_STATE.classes, ['Nama Kelas', 'Wali Kelas'], ['Nama Kelas', 'Wali Kelas', 'Kapasitas', 'Tahun Ajaran', 'Status'], 'classes');
+  }
+
+  function renderGenericTable(searchId, targetId, collection, filterColumns, displayColumns, type) {
+    const keyword = document.getElementById(searchId).value.toLowerCase();
+    const rows = collection.filter((item) => {
+      return filterColumns
+        .map((column) => String(item[column] ?? ''))
+        .join(' ')
+        .toLowerCase()
+        .includes(keyword);
+    });
+    document.getElementById(targetId).innerHTML = renderTableRows(rows, displayColumns, type);
+  }
+
+  function renderAnnouncements() {
+    const keyword = document.getElementById('announcementSearch').value.toLowerCase();
+    const cards = APP_STATE.announcements.filter((item) => {
+      return ['Judul', 'Kategori', 'Isi']
+        .map((column) => String(item[column] ?? ''))
+        .join(' ')
+        .toLowerCase()
+        .includes(keyword);
+    });
+
+    document.getElementById('announcementCards').innerHTML = cards.map((item) => `
+      <article class="announcement-card">
+        <div class="meta-line">
+          <span class="badge">${escapeHtml(item.Kategori || '-')}</span>
+          <span>${formatDate(item['Tanggal Publikasi'])}</span>
+          <span>${escapeHtml(item.Status || '-')}</span>
+        </div>
+        <h4>${escapeHtml(item.Judul || '-')}</h4>
+        <p>${escapeHtml(item.Isi || '-')}</p>
+        ${renderRowActions(item.ID, 'announcements')}
+      </article>
+    `).join('') || '<p>Tidak ada pengumuman yang cocok.</p>';
+  }
+
+  function renderTableRows(rows, columns, type) {
+    if (!rows.length) {
+      return `<tr><td colspan="${columns.length + 1}">Belum ada data.</td></tr>`;
+    }
+
+    return rows.map((item) => `
+      <tr>
+        ${columns.map((column) => `<td>${column === 'Status' ? `<span class="badge">${escapeHtml(item[column] || '-')}</span>` : escapeHtml(item[column] || '-')}</td>`).join('')}
+        <td>${renderInlineTableActions(item.ID, type)}</td>
+      </tr>
+    `).join('');
+  }
+
+  function renderInlineTableActions(recordId, moduleKey) {
+    if (!APP_STATE.auth.canWrite && !APP_STATE.auth.canDelete) {
+      return '<span class="meta-line">Read only</span>';
+    }
+
+    return `
+      <div class="inline-actions">
+        ${APP_STATE.auth.canWrite ? `<button type="button" class="edit-btn" data-edit-form="${escapeAttribute(FORM_IDS[moduleKey])}" data-record-key="${escapeAttribute(buildRecordKey(moduleKey, recordId))}">Edit</button>` : ''}
+        ${APP_STATE.auth.canDelete ? `<button type="button" class="delete-btn" data-delete-module="${escapeAttribute(moduleKey)}" data-record-id="${escapeAttribute(recordId)}">Hapus</button>` : ''}
+      </div>
+    `;
+  }
+
+  function renderRowActions(recordId, moduleKey) {
+    if (!APP_STATE.auth.canWrite && !APP_STATE.auth.canDelete) {
+      return '';
+    }
+
+    return `
+      <div class="inline-actions" style="margin-top: 14px;">
+        ${APP_STATE.auth.canWrite ? `<button type="button" class="edit-btn" data-edit-form="${escapeAttribute(FORM_IDS[moduleKey])}" data-record-key="${escapeAttribute(buildRecordKey(moduleKey, recordId))}">Edit</button>` : ''}
+        ${APP_STATE.auth.canDelete ? `<button type="button" class="delete-btn" data-delete-module="${escapeAttribute(moduleKey)}" data-record-id="${escapeAttribute(recordId)}">Hapus</button>` : ''}
+      </div>
+    `;
+  }
+
+  function buildRecordKey(moduleKey, recordId) {
+    return moduleKey + ':' + recordId;
+  }
+</script>

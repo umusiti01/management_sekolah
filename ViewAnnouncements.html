@@ -1,0 +1,49 @@
+<section class="view" id="announcementsView">
+  <div class="section-layout">
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <p class="eyebrow">Komunikasi</p>
+          <h3>Pengumuman sekolah</h3>
+        </div>
+        <input class="search-input" id="announcementSearch" placeholder="Cari judul atau kategori">
+      </div>
+      <div id="announcementCards" class="announcement-grid"></div>
+    </section>
+
+    <section class="panel form-panel">
+      <div class="panel-head">
+        <div>
+          <p class="eyebrow">Publikasi</p>
+          <h3>Buat pengumuman</h3>
+        </div>
+      </div>
+      <form id="announcementForm" class="data-form">
+        <input type="hidden" name="ID">
+        <label><span>Judul</span><input name="Judul" required></label>
+        <label><span>Kategori</span>
+          <select name="Kategori" required>
+            <option>Agenda</option>
+            <option>Akademik</option>
+            <option>Keuangan</option>
+            <option>Kegiatan</option>
+            <option>Informasi Umum</option>
+          </select>
+        </label>
+        <label><span>Tanggal Publikasi</span><input name="Tanggal Publikasi" type="date" required></label>
+        <label><span>Isi Pengumuman</span><textarea name="Isi" rows="5" required></textarea></label>
+        <label><span>Status</span>
+          <select name="Status" required>
+            <option>Tayang</option>
+            <option>Draft</option>
+            <option>Arsip</option>
+          </select>
+        </label>
+        <div class="form-actions">
+          <button type="button" class="ghost-button" data-reset-form="announcementForm">Reset</button>
+          <button type="submit" class="primary-button">Simpan Pengumuman</button>
+        </div>
+      </form>
+    </section>
+  </div>
+</section>

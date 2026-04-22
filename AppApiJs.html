@@ -1,0 +1,35 @@
+<script>
+  function runServerAction(actionName, payload, onSuccess) {
+    const runner = google.script.run
+      .withSuccessHandler(onSuccess)
+      .withFailureHandler(handleFailure);
+
+    if (typeof payload === 'undefined') {
+      runner[actionName]();
+      return;
+    }
+
+    if (Array.isArray(payload)) {
+      if (payload.length === 0) {
+        runner[actionName]();
+        return;
+      }
+      if (payload.length === 1) {
+        runner[actionName](payload[0]);
+        return;
+      }
+      if (payload.length === 2) {
+        runner[actionName](payload[0], payload[1]);
+        return;
+      }
+      if (payload.length === 3) {
+        runner[actionName](payload[0], payload[1], payload[2]);
+        return;
+      }
+      throw new Error('Jumlah argumen server action tidak didukung.');
+      return;
+    }
+
+    runner[actionName](payload);
+  }
+</script>

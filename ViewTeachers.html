@@ -1,0 +1,58 @@
+<section class="view" id="teachersView">
+  <div class="section-layout">
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <p class="eyebrow">SDM Sekolah</p>
+          <h3>Daftar guru</h3>
+        </div>
+        <input class="search-input" id="teacherSearch" placeholder="Cari nama, NIP, atau mapel">
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>NIP</th>
+              <th>Nama</th>
+              <th>Jabatan</th>
+              <th>Mapel</th>
+              <th>Status</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="teachersTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel form-panel">
+      <div class="panel-head">
+        <div>
+          <p class="eyebrow">Input</p>
+          <h3>Form guru</h3>
+        </div>
+      </div>
+      <form id="teacherForm" class="data-form">
+        <input type="hidden" name="ID">
+        <label><span>NIP</span><input name="NIP" required></label>
+        <label><span>Nama</span><input name="Nama" required></label>
+        <label><span>Jabatan</span><input name="Jabatan" required></label>
+        <label><span>Mata Pelajaran</span><input name="Mapel" required></label>
+        <label><span>No HP</span><input name="No HP"></label>
+        <label><span>Email</span><input name="Email" type="email"></label>
+        <label><span>Status</span>
+          <select name="Status" required>
+            <option>Aktif</option>
+            <option>Cuti</option>
+            <option>Pensiun</option>
+            <option>Nonaktif</option>
+          </select>
+        </label>
+        <div class="form-actions">
+          <button type="button" class="ghost-button" data-reset-form="teacherForm">Reset</button>
+          <button type="submit" class="primary-button">Simpan Guru</button>
+        </div>
+      </form>
+    </section>
+  </div>
+</section>

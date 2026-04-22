@@ -1,0 +1,45 @@
+<div class="app-shell">
+  <aside class="sidebar">
+    <div>
+      <div class="brand-mark">S</div>
+      <div class="brand-copy">
+        <h1>SchoolOps</h1>
+        <p>Manajemen sekolah modern</p>
+      </div>
+    </div>
+
+    <nav class="menu">
+      <button class="menu-item active" data-view="dashboard">Dashboard</button>
+      <button class="menu-item" data-view="students">Siswa</button>
+      <button class="menu-item" data-view="teachers">Guru</button>
+      <button class="menu-item" data-view="classes">Kelas</button>
+      <button class="menu-item" data-view="announcements">Pengumuman</button>
+    </nav>
+
+    <div class="sidebar-foot">
+      <p>Administrasi akademik, SDM sekolah, dan komunikasi internal dalam satu dashboard.</p>
+      <button class="ghost-button" id="seedDataButton">Isi contoh data</button>
+    </div>
+  </aside>
+
+  <main class="main-panel">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Control Center</p>
+        <h2 id="pageTitle">Dashboard Sekolah</h2>
+      </div>
+      <div class="topbar-actions">
+        <span class="status-chip" id="lastUpdated">Memuat data...</span>
+        <button class="primary-button" id="refreshButton">Refresh Data</button>
+      </div>
+    </header>
+
+    <?!= include('ViewDashboard'); ?>
+    <?!= include('ViewStudents'); ?>
+    <?!= include('ViewTeachers'); ?>
+    <?!= include('ViewClasses'); ?>
+    <?!= include('ViewAnnouncements'); ?>
+  </main>
+</div>
+
+<div id="toast" class="toast"></div>

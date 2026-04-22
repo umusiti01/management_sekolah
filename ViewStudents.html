@@ -1,0 +1,65 @@
+<section class="view" id="studentsView">
+  <div class="section-layout">
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <p class="eyebrow">Data Master</p>
+          <h3>Daftar siswa</h3>
+        </div>
+        <input class="search-input" id="studentSearch" placeholder="Cari nama, NIS, atau kelas">
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>NIS</th>
+              <th>Nama</th>
+              <th>Kelas</th>
+              <th>No HP</th>
+              <th>Status</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="studentsTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel form-panel">
+      <div class="panel-head">
+        <div>
+          <p class="eyebrow">Input</p>
+          <h3>Form siswa</h3>
+        </div>
+      </div>
+      <form id="studentForm" class="data-form">
+        <input type="hidden" name="ID">
+        <label><span>NIS</span><input name="NIS" required></label>
+        <label><span>Nama</span><input name="Nama" required></label>
+        <label><span>Jenis Kelamin</span>
+          <select name="Jenis Kelamin" required>
+            <option value="">Pilih</option>
+            <option>Laki-laki</option>
+            <option>Perempuan</option>
+          </select>
+        </label>
+        <label><span>Kelas</span><input name="Kelas" required></label>
+        <label><span>Orang Tua</span><input name="Orang Tua"></label>
+        <label><span>No HP</span><input name="No HP"></label>
+        <label><span>Alamat</span><textarea name="Alamat" rows="3"></textarea></label>
+        <label><span>Status</span>
+          <select name="Status" required>
+            <option>Aktif</option>
+            <option>Cuti</option>
+            <option>Lulus</option>
+            <option>Nonaktif</option>
+          </select>
+        </label>
+        <div class="form-actions">
+          <button type="button" class="ghost-button" data-reset-form="studentForm">Reset</button>
+          <button type="submit" class="primary-button">Simpan Siswa</button>
+        </div>
+      </form>
+    </section>
+  </div>
+</section>

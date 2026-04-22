@@ -1,0 +1,233 @@
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    bindNavigation();
+    bindActions();
+    bindForms();
+    bindSearch();
+    resetForm('announcementForm');
+    loadData();
+  });
+
+  function bindNavigation() {
+    document.querySelectorAll('.menu-item').forEach((button) => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('.menu-item').forEach((item) => item.classList.remove('active'));
+        document.querySelectorAll('.view').forEach((view) => view.classList.remove('active'));
+
+        button.classList.add('active');
+        document.getElementById(button.dataset.view + 'View').classList.add('active');
+        document.getElementById('pageTitle').textContent = VIEW_TITLES[button.dataset.view];
+      });
+    });
+  }
+
+  function bindActions() {
+    document.getElementById('refreshButton').addEventListener('click', loadData);
+
+    document.getElementById('seedDataButton').addEventListener('click', () => {
+      runServerAction('seedSampleData', undefined, (response) => {
+        showToast(response.message);
+        loadData();
+      });
+    });
+
+    document.querySelectorAll('[data-reset-form]').forEach((button) => {
+      button.addEventListener('click', () => resetForm(button.dataset.resetForm));
+    });
+
+    document.addEventListener('click', (event) => {
+      const editButton = event.target.closest('[data-edit-form]');
+      if (editButton) {
+        if (!APP_STATE.auth.canWrite) {
+          return;
+        }
+        const record = APP_STATE.recordsById[editButton.dataset.recordKey];
+        if (record) {
+          editRecord(editButton.dataset.editForm, record);
+        }
+      }
+
+      const deleteButton = event.target.closest('[data-delete-module]');
+      if (deleteButton) {
+        deleteRecordHandler(deleteButton.dataset.deleteModule, deleteButton.dataset.recordId);
+      }
+    });
+  }
+
+  function bindForms() {
+    bindFormSubmit('studentForm', 'saveStudent');
+    bindFormSubmit('teacherForm', 'saveTeacher');
+    bindFormSubmit('classForm', 'saveClassroom');
+    bindFormSubmit('announcementForm', 'saveAnnouncement');
+  }
+
+  function bindFormSubmit(formId, actionName) {
+    document.getElementById(formId).addEventListener('submit', (event) => {
+      event.preventDefault();
+      submitForm(formId, actionName);
+    });
+  }
+
+  function bindSearch() {
+    document.getElementById('studentSearch').addEventListener('input', renderStudentsTable);
+    document.getElementById('teacherSearch').addEventListener('input', renderTeachersTable);
+    document.getElementById('classSearch').addEventListener('input', renderClassesTable);
+    document.getElementById('announcementSearch').addEventListener('input', renderAnnouncements);
+  }
+
+  function loadData() {
+    document.getElementById('lastUpdated').textContent = 'Memuat data...';
+    runServerAction('getBootstrapData', undefined, (payload) => {
+      APP_STATE.students = payload.students || [];
+      APP_STATE.teachers = payload.teachers || [];
+      APP_STATE.classes = payload.classes || [];
+      APP_STATE.announcements = payload.announcements || [];
+      APP_STATE.auth = payload.auth || APP_STATE.auth;
+      indexRecords();
+
+      renderDashboard(payload);
+      renderStudentsTable();
+      renderTeachersTable();
+      renderClassesTable();
+      renderAnnouncements();
+      syncPermissionState();
+
+      document.getElementById('lastUpdated').textContent =
+        'Update: ' + new Date(payload.generatedAt).toLocaleString('id-ID');
+    });
+  }
+
+  function submitForm(formId, actionName) {
+    if (!APP_STATE.auth.canWrite) {
+      showToast('Akun ini hanya memiliki akses baca.');
+      return;
+    }
+
+    const form = document.getElementById(formId);
+    const formData = Object.fromEntries(new FormData(form).entries());
+
+    runServerAction(actionName, formData, (response) => {
+      showToast(response.message || 'Data berhasil disimpan.');
+      resetForm(formId);
+      loadData();
+    });
+  }
+
+  function editRecord(formId, record) {
+    const form = document.getElementById(formId);
+    Object.keys(record).forEach((key) => {
+      const field = form.elements.namedItem(key);
+      if (field) {
+        field.value = field.type === 'date' ? normalizeDateForInput(record[key]) : record[key];
+      }
+    });
+    form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function deleteRecordHandler(moduleKey, id) {
+    if (!APP_STATE.auth.canDelete) {
+      showToast('Hanya admin yang dapat menghapus data.');
+      return;
+    }
+
+    if (!confirm('Hapus data ini?')) {
+      return;
+    }
+
+    runServerAction('deleteRecord', [moduleKey, id], () => {
+      showToast('Data berhasil dihapus.');
+      loadData();
+    });
+  }
+
+  function resetForm(formId) {
+    const form = document.getElementById(formId);
+    form.reset();
+
+    const idField = form.elements.namedItem('ID');
+    if (idField) {
+      idField.value = '';
+    }
+
+    const dateField = form.elements.namedItem('Tanggal Publikasi');
+    if (dateField) {
+      dateField.value = new Date().toISOString().slice(0, 10);
+    }
+  }
+
+  function syncPermissionState() {
+    document.querySelectorAll('.data-form').forEach((form) => {
+      const elements = Array.from(form.elements || []);
+      elements.forEach((element) => {
+        if (element.type === 'hidden') {
+          return;
+        }
+        element.disabled = !APP_STATE.auth.canWrite;
+      });
+
+      const formPanel = form.closest('.form-panel');
+      if (!formPanel) {
+        return;
+      }
+
+      const moduleKey = FORM_MODULES[form.id];
+      const heading = formPanel.querySelector('.panel-head h3');
+      const eyebrow = formPanel.querySelector('.panel-head .eyebrow');
+      const submitButton = form.querySelector('[type="submit"]');
+      const badgeId = form.id + '-readonly-badge';
+      let badge = formPanel.querySelector('#' + badgeId);
+
+      if (!APP_STATE.auth.canWrite) {
+        if (heading) {
+          heading.textContent = 'Mode baca';
+        }
+        if (eyebrow) {
+          eyebrow.textContent = 'Read Only';
+        }
+        if (submitButton) {
+          submitButton.hidden = true;
+        }
+        if (!badge) {
+          badge = document.createElement('div');
+          badge.id = badgeId;
+          badge.className = 'read-only-banner';
+          form.prepend(badge);
+        }
+        badge.textContent = 'Akses baca saja. Anda tidak dapat mengubah data pada modul ini.';
+      } else {
+        if (heading) {
+          heading.textContent = getEditableFormTitle(moduleKey);
+        }
+        if (eyebrow) {
+          eyebrow.textContent = getEditableEyebrow(moduleKey);
+        }
+        if (submitButton) {
+          submitButton.hidden = false;
+        }
+        if (badge) {
+          badge.remove();
+        }
+      }
+    });
+  }
+
+  function getEditableFormTitle(moduleKey) {
+    const titles = {
+      students: 'Form siswa',
+      teachers: 'Form guru',
+      classes: 'Form kelas',
+      announcements: 'Buat pengumuman'
+    };
+    return titles[moduleKey] || 'Form';
+  }
+
+  function getEditableEyebrow(moduleKey) {
+    const labels = {
+      students: 'Input',
+      teachers: 'Input',
+      classes: 'Input',
+      announcements: 'Publikasi'
+    };
+    return labels[moduleKey] || 'Input';
+  }
+</script>
