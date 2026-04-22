@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SchoolOps Admin | Portal Sekolah</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/base.css">
+    <link rel="stylesheet" href="/styles/components.css">
+  </head>
+  <body>
+    <section class="public-site" id="loginScreen">
+      <header class="school-header">
+        <div class="school-header__brand">
+          <div class="school-seal">SP</div>
+          <div>
+            <p class="eyebrow">PORTAL INTERNAL</p>
+            <h1>SchoolOps Admin</h1>
+          </div>
+        </div>
+        <nav class="school-nav">
+          <a href="/">Website Sekolah</a>
+        </nav>
+      </header>
+
+      <main class="school-hero" style="padding-top: 18px; padding-bottom: 42px;">
+        <div class="school-hero__content">
+          <p class="eyebrow">Akses Admin</p>
+          <h2>Masuk ke dashboard pengelolaan sekolah.</h2>
+          <p class="school-hero__copy">Halaman ini khusus untuk akses internal. Gunakan frontend access token untuk membuka dashboard siswa, guru, kelas, dan pengumuman.</p>
+        </div>
+
+        <section class="access-card">
+          <div class="access-card-head">
+            <p class="eyebrow">Login Portal</p>
+            <h2>Masuk ke Portal Sekolah</h2>
+            <p>Token frontend diverifikasi di Vercel, lalu request diteruskan ke Apps Script melalui token server-side yang tersimpan aman di environment.</p>
+          </div>
+
+          <form id="accessForm" class="access-form">
+            <label class="access-label">
+              <span>Frontend Access Token</span>
+              <input type="password" id="frontendToken" placeholder="Masukkan token akses" required>
+            </label>
+            <button type="submit" class="primary-button wide">Masuk ke Dashboard</button>
+          </form>
+
+          <div class="access-note">
+            <strong>Login terpisah</strong>
+            <span>Halaman utama website sekolah tetap publik, sedangkan dashboard admin dipisahkan di portal ini.</span>
+          </div>
+        </section>
+      </main>
+    </section>
+
+    <div class="app-shell" id="appShell" hidden>
+      <aside class="sidebar">
+        <div>
+          <div class="brand-mark">S</div>
+          <div class="brand-copy">
+            <h1>SchoolOps</h1>
+            <p>Frontend Vercel untuk manajemen sekolah</p>
+          </div>
+        </div>
+
+        <nav class="menu">
+          <button class="menu-item active" data-view="dashboard">Dashboard</button>
+          <button class="menu-item" data-view="students">Siswa</button>
+          <button class="menu-item" data-view="teachers">Guru</button>
+          <button class="menu-item" data-view="classes">Kelas</button>
+          <button class="menu-item" data-view="announcements">Pengumuman</button>
+        </nav>
+
+        <div class="sidebar-foot">
+          <p>Frontend ini berjalan di Vercel dan meneruskan request API ke Google Apps Script.</p>
+          <button class="ghost-button" id="logoutButton" type="button">Logout</button>
+        </div>
+      </aside>
+
+      <main class="main-panel">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Control Center</p>
+            <h2 id="pageTitle">Dashboard Sekolah</h2>
+          </div>
+          <div class="topbar-actions">
+            <span class="status-chip" id="lastUpdated">Memuat data...</span>
+            <button class="ghost-button" id="seedDataButton" type="button" hidden>Isi contoh data</button>
+            <button class="primary-button" id="refreshButton" type="button">Refresh Data</button>
+          </div>
+        </header>
+
+        <section class="view active" id="dashboardView">
+          <div class="hero-card">
+            <div>
+              <p class="eyebrow">Ringkasan</p>
+              <h3>Kelola siswa, guru, kelas, dan pengumuman sekolah dari frontend Vercel yang terhubung ke Apps Script.</h3>
+              <p class="hero-copy">Arsitektur ini memisahkan UI dari backend. URL Apps Script dan token server-side disimpan di environment Vercel, bukan di browser.</p>
+            </div>
+            <div class="hero-metrics">
+              <div>
+                <span>Total Siswa</span>
+                <strong id="totalStudents">0</strong>
+              </div>
+              <div>
+                <span>Total Guru</span>
+                <strong id="totalTeachers">0</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <article class="stat-card accent-blue">
+              <span>Siswa Aktif</span>
+              <strong id="activeStudents">0</strong>
+            </article>
+            <article class="stat-card accent-gold">
+              <span>Guru Aktif</span>
+              <strong id="activeTeachers">0</strong>
+            </article>
+            <article class="stat-card accent-green">
+              <span>Total Kelas</span>
+              <strong id="totalClasses">0</strong>
+            </article>
+            <article class="stat-card accent-slate">
+              <span>Pengumuman Tayang</span>
+              <strong id="publishedAnnouncements">0</strong>
+            </article>
+          </div>
+
+          <div class="content-grid">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Aktivitas</p>
+                  <h3>Pengumuman terbaru</h3>
+                </div>
+              </div>
+              <div id="latestAnnouncements" class="stack-list"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Distribusi</p>
+                  <h3>Kelas aktif</h3>
+                </div>
+              </div>
+              <div id="classHighlights" class="stack-list"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="studentsView">
+          <div class="section-layout">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Data Master</p>
+                  <h3>Daftar siswa</h3>
+                </div>
+                <input class="search-input" id="studentSearch" placeholder="Cari nama, NIS, atau kelas">
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>NIS</th>
+                      <th>Nama</th>
+                      <th>Kelas</th>
+                      <th>No HP</th>
+                      <th>Status</th>
+                      <th>Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody id="studentsTable"></tbody>
+                </table>
+              </div>
+            </section>
+
+            <section class="panel form-panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Input</p>
+                  <h3>Form siswa</h3>
+                </div>
+              </div>
+              <form id="studentForm" class="data-form">
+                <input type="hidden" name="ID">
+                <label><span>NIS</span><input name="NIS" required></label>
+                <label><span>Nama</span><input name="Nama" required></label>
+                <label><span>Jenis Kelamin</span>
+                  <select name="Jenis Kelamin" required>
+                    <option value="">Pilih</option>
+                    <option>Laki-laki</option>
+                    <option>Perempuan</option>
+                  </select>
+                </label>
+                <label><span>Kelas</span><input name="Kelas" required></label>
+                <label><span>Orang Tua</span><input name="Orang Tua"></label>
+                <label><span>No HP</span><input name="No HP"></label>
+                <label><span>Alamat</span><textarea name="Alamat" rows="3"></textarea></label>
+                <label><span>Status</span>
+                  <select name="Status" required>
+                    <option>Aktif</option>
+                    <option>Cuti</option>
+                    <option>Lulus</option>
+                    <option>Nonaktif</option>
+                  </select>
+                </label>
+                <div class="form-actions">
+                  <button type="button" class="ghost-button" data-reset-form="studentForm">Reset</button>
+                  <button type="submit" class="primary-button">Simpan Siswa</button>
+                </div>
+              </form>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="teachersView">
+          <div class="section-layout">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">SDM Sekolah</p>
+                  <h3>Daftar guru</h3>
+                </div>
+                <input class="search-input" id="teacherSearch" placeholder="Cari nama, NIP, atau mapel">
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>NIP</th>
+                      <th>Nama</th>
+                      <th>Jabatan</th>
+                      <th>Mapel</th>
+                      <th>Status</th>
+                      <th>Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody id="teachersTable"></tbody>
+                </table>
+              </div>
+            </section>
+
+            <section class="panel form-panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Input</p>
+                  <h3>Form guru</h3>
+                </div>
+              </div>
+              <form id="teacherForm" class="data-form">
+                <input type="hidden" name="ID">
+                <label><span>NIP</span><input name="NIP" required></label>
+                <label><span>Nama</span><input name="Nama" required></label>
+                <label><span>Jabatan</span><input name="Jabatan" required></label>
+                <label><span>Mata Pelajaran</span><input name="Mapel" required></label>
+                <label><span>No HP</span><input name="No HP"></label>
+                <label><span>Email</span><input name="Email" type="email"></label>
+                <label><span>Status</span>
+                  <select name="Status" required>
+                    <option>Aktif</option>
+                    <option>Cuti</option>
+                    <option>Pensiun</option>
+                    <option>Nonaktif</option>
+                  </select>
+                </label>
+                <div class="form-actions">
+                  <button type="button" class="ghost-button" data-reset-form="teacherForm">Reset</button>
+                  <button type="submit" class="primary-button">Simpan Guru</button>
+                </div>
+              </form>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="classesView">
+          <div class="section-layout">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Akademik</p>
+                  <h3>Daftar kelas</h3>
+                </div>
+                <input class="search-input" id="classSearch" placeholder="Cari kelas atau wali kelas">
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Nama Kelas</th>
+                      <th>Wali Kelas</th>
+                      <th>Kapasitas</th>
+                      <th>Tahun Ajaran</th>
+                      <th>Status</th>
+                      <th>Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody id="classesTable"></tbody>
+                </table>
+              </div>
+            </section>
+
+            <section class="panel form-panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Input</p>
+                  <h3>Form kelas</h3>
+                </div>
+              </div>
+              <form id="classForm" class="data-form">
+                <input type="hidden" name="ID">
+                <label><span>Nama Kelas</span><input name="Nama Kelas" required></label>
+                <label><span>Wali Kelas</span><input name="Wali Kelas" required></label>
+                <label><span>Kapasitas</span><input name="Kapasitas" type="number" min="1"></label>
+                <label><span>Tahun Ajaran</span><input name="Tahun Ajaran" placeholder="2026/2027" required></label>
+                <label><span>Status</span>
+                  <select name="Status" required>
+                    <option>Aktif</option>
+                    <option>Penuh</option>
+                    <option>Ditutup</option>
+                  </select>
+                </label>
+                <div class="form-actions">
+                  <button type="button" class="ghost-button" data-reset-form="classForm">Reset</button>
+                  <button type="submit" class="primary-button">Simpan Kelas</button>
+                </div>
+              </form>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="announcementsView">
+          <div class="section-layout">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Komunikasi</p>
+                  <h3>Pengumuman sekolah</h3>
+                </div>
+                <input class="search-input" id="announcementSearch" placeholder="Cari judul atau kategori">
+              </div>
+              <div id="announcementCards" class="announcement-grid"></div>
+            </section>
+
+            <section class="panel form-panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Publikasi</p>
+                  <h3>Buat pengumuman</h3>
+                </div>
+              </div>
+              <form id="announcementForm" class="data-form">
+                <input type="hidden" name="ID">
+                <label><span>Judul</span><input name="Judul" required></label>
+                <label><span>Kategori</span>
+                  <select name="Kategori" required>
+                    <option>Agenda</option>
+                    <option>Akademik</option>
+                    <option>Keuangan</option>
+                    <option>Kegiatan</option>
+                    <option>Informasi Umum</option>
+                  </select>
+                </label>
+                <label><span>Tanggal Publikasi</span><input name="Tanggal Publikasi" type="date" required></label>
+                <label><span>Isi Pengumuman</span><textarea name="Isi" rows="5" required></textarea></label>
+                <label><span>Status</span>
+                  <select name="Status" required>
+                    <option>Tayang</option>
+                    <option>Draft</option>
+                    <option>Arsip</option>
+                  </select>
+                </label>
+                <div class="form-actions">
+                  <button type="button" class="ghost-button" data-reset-form="announcementForm">Reset</button>
+                  <button type="submit" class="primary-button">Simpan Pengumuman</button>
+                </div>
+              </form>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="/js/config.js"></script>
+    <script src="/js/utils.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="/js/renderers.js"></script>
+    <script src="/js/admin.js"></script>
+  </body>
+</html>
