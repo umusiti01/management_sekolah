@@ -11,6 +11,14 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function bindAccessGate() {
+  document.querySelectorAll('[data-open-portal]').forEach((button) => {
+    button.addEventListener('click', openPortalModal);
+  });
+
+  document.querySelectorAll('[data-close-portal]').forEach((element) => {
+    element.addEventListener('click', closePortalModal);
+  });
+
   document.getElementById('accessForm').addEventListener('submit', async (event) => {
     event.preventDefault();
     const token = document.getElementById('frontendToken').value.trim();
@@ -22,6 +30,7 @@ function bindAccessGate() {
     window.setFrontendToken(token);
     try {
       await enterApplication();
+      closePortalModal();
     } catch (error) {
       window.clearFrontendToken();
       window.showToast(error.message);
@@ -30,7 +39,7 @@ function bindAccessGate() {
 }
 
 async function enterApplication() {
-  document.getElementById('accessGate').hidden = true;
+  document.getElementById('publicSite').hidden = true;
   document.getElementById('appShell').hidden = false;
   await loadData();
 }
@@ -55,7 +64,9 @@ function bindActions() {
 
   document.getElementById('logoutButton').addEventListener('click', () => {
     window.clearFrontendToken();
-    window.location.reload();
+    document.getElementById('appShell').hidden = true;
+    document.getElementById('publicSite').hidden = false;
+    closePortalModal();
   });
 
   document.getElementById('seedDataButton').addEventListener('click', () => {
@@ -171,4 +182,12 @@ function resetForm(formId) {
   if (dateField) {
     dateField.value = new Date().toISOString().slice(0, 10);
   }
+}
+
+function openPortalModal() {
+  document.getElementById('portalModal').hidden = false;
+}
+
+function closePortalModal() {
+  document.getElementById('portalModal').hidden = true;
 }

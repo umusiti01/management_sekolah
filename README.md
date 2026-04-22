@@ -65,6 +65,8 @@ File HTML root lama tidak diperlukan untuk mode backend-only.
 Catatan:
 - Manifest sekarang memakai `webapp.access = ANYONE_ANONYMOUS` agar Vercel bisa memanggil endpoint server-to-server.
 - Keamanan utama tetap dijaga oleh `SCHOOL_API_TOKEN`, bukan oleh akses publik ke URL.
+- Jika `SCHOOL_APP_ENV=development` dan allowlist email/domain belum diisi, editor Apps Script akan mendapat bypass akses sementara untuk setup lokal.
+- Untuk production, isi allowlist yang sesuai atau gunakan kebijakan domain sekolah.
 
 ## Pengamanan Yang Sudah Ditambahkan
 

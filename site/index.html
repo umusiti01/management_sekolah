@@ -11,51 +11,187 @@
     <link rel="stylesheet" href="/styles/components.css">
   </head>
   <body>
-    <div class="access-gate" id="accessGate">
-      <div class="access-stage">
-        <section class="access-showcase">
+    <div class="public-site" id="publicSite">
+      <header class="school-header">
+        <div class="school-header__brand">
           <div class="school-seal">SP</div>
-          <p class="eyebrow light">Portal Akademik</p>
-          <h1>SchoolOps<br>Manajemen Sekolah Modern</h1>
-          <p class="showcase-copy">Satu portal untuk operasional siswa, guru, kelas, dan pengumuman sekolah dengan nuansa yang lebih resmi, rapi, dan layak dipakai institusi pendidikan.</p>
+          <div>
+            <p class="eyebrow">SITUS RESMI SEKOLAH</p>
+            <h1>SMK SchoolOps Nusantara</h1>
+          </div>
+        </div>
+        <nav class="school-nav">
+          <a href="#tentang">Tentang</a>
+          <a href="#program">Program</a>
+          <a href="#berita">Berita</a>
+          <a href="#kontak">Kontak</a>
+          <button type="button" class="ghost-button school-nav__button" data-open-portal>Portal Internal</button>
+        </nav>
+      </header>
 
-          <div class="showcase-points">
-            <div class="showcase-point">
-              <strong>Administrasi Terpusat</strong>
-              <span>Kelola data sekolah dari satu dashboard yang konsisten.</span>
+      <main>
+        <section class="school-hero">
+          <div class="school-hero__content">
+            <p class="eyebrow">Sekolah Unggul dan Berkarakter</p>
+            <h2>Membentuk Generasi Siap Kerja, Siap Kuliah, dan Siap Memimpin.</h2>
+            <p class="school-hero__copy">SMK SchoolOps Nusantara menghadirkan pendidikan vokasi modern dengan pendekatan disiplin, teknologi, dan pembinaan karakter agar setiap siswa tumbuh menjadi pribadi yang kompeten serta berakhlak baik.</p>
+            <div class="school-hero__actions">
+              <a class="primary-button link-button" href="#ppdb">Info PPDB</a>
+              <button type="button" class="ghost-button school-hero__ghost" data-open-portal>Akses Guru & Admin</button>
             </div>
-            <div class="showcase-point">
-              <strong>Tampilan Profesional</strong>
-              <span>Dirancang lebih dekat dengan citra website sekolah dan yayasan.</span>
+          </div>
+          <div class="school-hero__panel">
+            <div class="hero-panel-card">
+              <span>Akreditasi</span>
+              <strong>Unggul</strong>
             </div>
-            <div class="showcase-point">
-              <strong>Integrasi Aman</strong>
-              <span>Frontend Vercel terhubung ke Apps Script melalui token server-side.</span>
+            <div class="hero-panel-card">
+              <span>Program Keahlian</span>
+              <strong>6 Jurusan</strong>
+            </div>
+            <div class="hero-panel-card">
+              <span>Mitra Industri</span>
+              <strong>32 Partner</strong>
             </div>
           </div>
         </section>
 
-        <section class="access-card">
-          <div class="access-card-head">
-            <p class="eyebrow">Akses Internal</p>
-            <h2>Masuk ke Dashboard Sekolah</h2>
-            <p>Gunakan token akses frontend untuk membuka portal internal sekolah yang sudah terhubung ke Vercel dan Google Apps Script.</p>
+        <section class="school-stats">
+          <article>
+            <strong>1.250+</strong>
+            <span>Siswa Aktif</span>
+          </article>
+          <article>
+            <strong>78</strong>
+            <span>Tenaga Pendidik</span>
+          </article>
+          <article>
+            <strong>96%</strong>
+            <span>Lulusan Terserap</span>
+          </article>
+          <article>
+            <strong>18</strong>
+            <span>Prestasi Tahun Ini</span>
+          </article>
+        </section>
+
+        <section class="school-section" id="tentang">
+          <div class="section-copy">
+            <p class="eyebrow">Profil Sekolah</p>
+            <h3>Lingkungan belajar yang tertib, hangat, dan berorientasi masa depan.</h3>
+            <p>Website sekolah seharusnya terasa seperti wajah institusi: tenang, terpercaya, dan informatif. Karena itu halaman depan ini kami arahkan menjadi profil sekolah publik, sementara dashboard pengelolaan data kami taruh di portal internal.</p>
           </div>
-
-          <form id="accessForm" class="access-form">
-            <label class="access-label">
-              <span>Frontend Access Token</span>
-              <input type="password" id="frontendToken" placeholder="Masukkan token akses" required>
-            </label>
-            <button type="submit" class="primary-button wide">Masuk ke Portal</button>
-          </form>
-
-          <div class="access-note">
-            <strong>Akses aman</strong>
-            <span>Token frontend diverifikasi di Vercel, lalu Vercel meneruskan request ke Apps Script dengan token rahasia yang tersimpan di environment server.</span>
+          <div class="section-card-grid">
+            <article class="info-card">
+              <h4>Visi</h4>
+              <p>Menjadi sekolah vokasi yang unggul, adaptif terhadap teknologi, dan berdaya saing global.</p>
+            </article>
+            <article class="info-card">
+              <h4>Misi</h4>
+              <p>Menyelenggarakan pembelajaran berbasis praktik, kolaborasi industri, dan pembentukan karakter.</p>
+            </article>
+            <article class="info-card">
+              <h4>Budaya Sekolah</h4>
+              <p>Disiplin, santun, kreatif, dan bertanggung jawab dalam setiap aktivitas akademik maupun non-akademik.</p>
+            </article>
           </div>
         </section>
-      </div>
+
+        <section class="school-section alt" id="program">
+          <div class="section-copy">
+            <p class="eyebrow">Program Unggulan</p>
+            <h3>Program yang dekat dengan kebutuhan dunia industri dan dunia kerja.</h3>
+          </div>
+          <div class="program-grid">
+            <article class="program-card">
+              <span>01</span>
+              <h4>Rekayasa Perangkat Lunak</h4>
+              <p>Pembelajaran coding, UI/UX, project digital, dan penguatan portofolio teknologi.</p>
+            </article>
+            <article class="program-card">
+              <span>02</span>
+              <h4>Akuntansi dan Keuangan</h4>
+              <p>Penguasaan laporan keuangan, administrasi bisnis, dan aplikasi perkantoran modern.</p>
+            </article>
+            <article class="program-card">
+              <span>03</span>
+              <h4>Teknik Jaringan Komputer</h4>
+              <p>Instalasi jaringan, keamanan dasar, dan praktik laboratorium berbasis kebutuhan industri.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="school-section" id="berita">
+          <div class="section-copy">
+            <p class="eyebrow">Berita & Agenda</p>
+            <h3>Informasi terbaru sekolah, kegiatan siswa, dan agenda penting untuk orang tua.</h3>
+          </div>
+          <div class="news-grid">
+            <article class="news-card">
+              <span class="news-tag">Prestasi</span>
+              <h4>Tim sekolah meraih juara kompetisi inovasi digital tingkat provinsi.</h4>
+              <p>Siswa berhasil membawa pulang penghargaan berkat proyek aplikasi edukasi yang dikembangkan bersama guru pembimbing.</p>
+            </article>
+            <article class="news-card">
+              <span class="news-tag">Agenda</span>
+              <h4>Penerimaan Peserta Didik Baru gelombang 1 resmi dibuka.</h4>
+              <p>Calon siswa dan orang tua dapat melihat jadwal, syarat pendaftaran, dan informasi seleksi melalui halaman PPDB sekolah.</p>
+            </article>
+            <article class="news-card">
+              <span class="news-tag">Kemitraan</span>
+              <h4>Penandatanganan kerja sama dengan dunia usaha dan industri lokal.</h4>
+              <p>Kolaborasi ini membuka peluang magang, kunjungan industri, dan penguatan kompetensi lulusan.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="school-cta" id="ppdb">
+          <div>
+            <p class="eyebrow light">Penerimaan Peserta Didik Baru</p>
+            <h3>Bergabung bersama sekolah yang menyiapkan masa depan siswa secara nyata.</h3>
+            <p>Hubungi panitia PPDB untuk jadwal pendaftaran, jalur seleksi, dan informasi kunjungan kampus sekolah.</p>
+          </div>
+          <div class="school-cta__actions">
+            <a class="primary-button link-button" href="#kontak">Hubungi Sekolah</a>
+            <button type="button" class="ghost-button" data-open-portal>Portal Internal</button>
+          </div>
+        </section>
+      </main>
+
+      <footer class="school-footer" id="kontak">
+        <div>
+          <h4>SMK SchoolOps Nusantara</h4>
+          <p>Jl. Pendidikan No. 10, Nusantara, Indonesia</p>
+        </div>
+        <div>
+          <p>Email: info@schoolops.sch.id</p>
+          <p>Telepon: (021) 555-7788</p>
+        </div>
+      </footer>
+    </div>
+
+    <div class="portal-modal" id="portalModal" hidden>
+      <div class="portal-backdrop" data-close-portal></div>
+      <section class="access-card portal-modal__card">
+        <div class="access-card-head">
+          <p class="eyebrow">Akses Internal</p>
+          <h2>Masuk ke Portal Sekolah</h2>
+          <p>Gunakan token akses untuk membuka dashboard pengelolaan siswa, guru, kelas, dan pengumuman sekolah.</p>
+        </div>
+
+        <form id="accessForm" class="access-form">
+          <label class="access-label">
+            <span>Frontend Access Token</span>
+            <input type="password" id="frontendToken" placeholder="Masukkan token akses" required>
+          </label>
+          <button type="submit" class="primary-button wide">Masuk ke Portal</button>
+        </form>
+
+        <div class="access-note">
+          <strong>Akses aman</strong>
+          <span>Token frontend diverifikasi di Vercel, lalu request diteruskan ke Apps Script melalui token server-side yang tersimpan aman di environment.</span>
+        </div>
+      </section>
     </div>
 
     <div class="app-shell" id="appShell" hidden>
