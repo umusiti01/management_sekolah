@@ -10,8 +10,8 @@ const DEMO_CONTENT = {
   phone: '(021) 555-7788',
   email: 'info@schoolops.sch.id',
   address: 'Jl. Pendidikan No. 10, Nusantara, Indonesia',
-  heroImage: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80',
-  featureImage: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=80'
+  heroImage: '',
+  featureImage: ''
 };
 
 const DEMO_ANNOUNCEMENTS = [
@@ -92,8 +92,8 @@ function renderPublicSite(settings, announcements) {
   const brandSeal = document.getElementById('brandSeal');
   brandSeal.textContent = getInitials(schoolName);
 
-  applyImageWithFallback('heroImage', heroImage, '.classic-hero');
-  applyImageWithFallback('featureImage', featureImage, '.classic-feature-card__image');
+  applyImageWithFallback(heroImage, '.classic-hero', 'hero-demo-background');
+  applyImageWithFallback(featureImage, '.classic-feature-card__image', 'feature-demo-background');
 
   renderAnnouncements(newsItems);
   renderAgenda(newsItems);
@@ -160,27 +160,26 @@ function getInitials(name) {
     .join('');
 }
 
-function applyImageWithFallback(imageId, url, containerSelector) {
-  const image = document.getElementById(imageId);
+function applyImageWithFallback(url, containerSelector, fallbackClass) {
   const container = document.querySelector(containerSelector);
-  if (!image || !container) {
+  if (!container) {
     return;
   }
 
-  image.classList.remove('is-hidden');
-  if (url) {
-    container.style.backgroundImage = `linear-gradient(90deg, rgba(7, 32, 54, 0.3), rgba(7, 32, 54, 0.08)), url("${url}")`;
+  container.classList.add(fallbackClass);
+  container.style.removeProperty('background-image');
+
+  if (!url) {
+    return;
   }
 
-  image.onerror = function () {
-    image.classList.add('is-hidden');
-    container.classList.add('has-demo-fallback');
+  const testImage = new Image();
+  testImage.onload = function () {
+    container.classList.remove(fallbackClass);
+    container.style.backgroundImage = `linear-gradient(90deg, rgba(7, 32, 54, 0.3), rgba(7, 32, 54, 0.08)), url("${url}")`;
   };
-
-  image.onload = function () {
-    image.classList.remove('is-hidden');
-    container.classList.remove('has-demo-fallback');
+  testImage.onerror = function () {
+    container.classList.add(fallbackClass);
   };
-
-  image.src = url;
+  testImage.src = url;
 }
