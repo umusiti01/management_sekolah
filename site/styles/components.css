@@ -145,7 +145,10 @@
 .classic-hero {
   position: relative;
   min-height: 430px;
-  background: #d7e5ef;
+  background:
+    linear-gradient(135deg, #9bb7cf 0%, #d7e5ef 48%, #adc8dc 100%);
+  background-size: cover;
+  background-position: center;
   overflow: hidden;
 }
 
@@ -156,11 +159,17 @@
   display: block;
 }
 
+.classic-hero img.is-hidden,
+.classic-feature-card__image img.is-hidden {
+  opacity: 0;
+}
+
 .classic-hero__overlay {
   position: absolute;
   inset: 0;
   background: linear-gradient(90deg, rgba(7, 32, 54, 0.55) 0%, rgba(7, 32, 54, 0.12) 55%, rgba(7, 32, 54, 0.08) 100%);
   display: flex;
+  justify-content: space-between;
   align-items: flex-end;
 }
 
@@ -198,6 +207,33 @@
   gap: 12px;
   flex-wrap: wrap;
   margin-top: 22px;
+}
+
+.classic-hero__badges {
+  display: grid;
+  gap: 12px;
+  padding: 28px;
+  width: 280px;
+  align-self: center;
+}
+
+.classic-hero__badge {
+  padding: 16px 18px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 14px 30px rgba(7, 32, 54, 0.16);
+}
+
+.classic-hero__badge span {
+  display: block;
+  margin-bottom: 6px;
+  color: #5c6e80;
+  font-size: 0.84rem;
+}
+
+.classic-hero__badge strong {
+  color: #1d2d3e;
+  font-size: 1.1rem;
 }
 
 .classic-stats {
@@ -251,6 +287,30 @@
   height: 320px;
   object-fit: cover;
   display: block;
+}
+
+.classic-feature-card__image {
+  background:
+    linear-gradient(135deg, rgba(47, 133, 192, 0.18), rgba(30, 112, 166, 0.05)),
+    linear-gradient(135deg, #d8e6f1 0%, #eef4f8 100%);
+  background-size: cover;
+  background-position: center;
+}
+
+.classic-hero.has-demo-fallback::before,
+.classic-feature-card__image.has-demo-fallback::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.34), transparent 18%),
+    radial-gradient(circle at 82% 22%, rgba(255, 255, 255, 0.18), transparent 20%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.08) 25%, transparent 25%) 0 0/28px 28px;
+  pointer-events: none;
+}
+
+.classic-feature-card__image.has-demo-fallback {
+  position: relative;
 }
 
 .classic-feature-card__body,
@@ -1521,6 +1581,17 @@ th {
 
   .classic-hero__content {
     padding: 18px;
+  }
+
+  .classic-hero__overlay {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-end;
+  }
+
+  .classic-hero__badges {
+    width: auto;
+    padding: 0 18px 18px;
   }
 
   .main-panel {

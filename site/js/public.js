@@ -92,8 +92,8 @@ function renderPublicSite(settings, announcements) {
   const brandSeal = document.getElementById('brandSeal');
   brandSeal.textContent = getInitials(schoolName);
 
-  document.getElementById('heroImage').src = heroImage;
-  document.getElementById('featureImage').src = featureImage;
+  applyImageWithFallback('heroImage', heroImage, '.classic-hero');
+  applyImageWithFallback('featureImage', featureImage, '.classic-feature-card__image');
 
   renderAnnouncements(newsItems);
   renderAgenda(newsItems);
@@ -158,4 +158,29 @@ function getInitials(name) {
     .slice(0, 2)
     .map((part) => part.charAt(0).toUpperCase())
     .join('');
+}
+
+function applyImageWithFallback(imageId, url, containerSelector) {
+  const image = document.getElementById(imageId);
+  const container = document.querySelector(containerSelector);
+  if (!image || !container) {
+    return;
+  }
+
+  image.classList.remove('is-hidden');
+  if (url) {
+    container.style.backgroundImage = `linear-gradient(90deg, rgba(7, 32, 54, 0.3), rgba(7, 32, 54, 0.08)), url("${url}")`;
+  }
+
+  image.onerror = function () {
+    image.classList.add('is-hidden');
+    container.classList.add('has-demo-fallback');
+  };
+
+  image.onload = function () {
+    image.classList.remove('is-hidden');
+    container.classList.remove('has-demo-fallback');
+  };
+
+  image.src = url;
 }
